@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.processinformationsystemsui'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.1'
+    implementation group: 'com.intellij', name: 'forms_rt', version: '7.0.3'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
