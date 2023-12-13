@@ -1,6 +1,6 @@
 package com.processinformationsystemsui.panel.Epizoda.Create;
 
-import com.processinformationsystemsui.common.EmisijaDataChangeListener;
+import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformationsystemsui.common.NumberInputVerifier;
 import com.processinformationsystemsui.common.dialog.create.BaseCreateNewElementDialog;
 

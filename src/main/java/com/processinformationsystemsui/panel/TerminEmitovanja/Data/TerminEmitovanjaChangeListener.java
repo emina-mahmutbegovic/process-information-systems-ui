@@ -1,4 +1,4 @@
-package com.processinformationsystemsui.common;
+package com.processinformationsystemsui.panel.TerminEmitovanja.Data;
 
 import java.io.IOException;
 

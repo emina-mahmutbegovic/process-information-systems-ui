@@ -2,7 +2,7 @@ package com.processinformationsystemsui.panel.Voditelj.ListaVoditelja;
 
 import com.processinformationsystemsui.common.list.BaseListPanel;
 import com.processinformationsystemsui.model.VoditeljModel;
-import com.processinformationsystemsui.common.EmisijaDataChangeListener;
+import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformatuionsystemsui.api.VoditeljApiResources;
 
 import javax.swing.*;

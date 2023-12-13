@@ -7,7 +7,7 @@ import com.processinformationsystemsui.panel.Gost.Add.ListaGostijuDialog;
 import com.processinformationsystemsui.panel.Gost.EmisijaGostPanel;
 import com.processinformationsystemsui.panel.Gost.Gost;
 import com.processinformationsystemsui.common.Common;
-import com.processinformationsystemsui.common.EmisijaDataChangeListener;
+import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformatuionsystemsui.api.GostApiResources;
 import com.processinformatuionsystemsui.api.GostujeApiResources;
 
@@ -24,7 +24,6 @@ public class ListaGostijuPanel extends BaseListPanel<GostModel> {
     private final GostujeApiResources gostujeAPIResources = new GostujeApiResources();
 
     private final String idEmisije;
-    private final Boolean isFromEmisijaPanel;
     private final JFrame parentFrame;
     private final EmisijaDataChangeListener listener;
 
@@ -34,11 +33,8 @@ public class ListaGostijuPanel extends BaseListPanel<GostModel> {
         this.parentFrame = parentFrame;
         this.listener = listener;
         this.idEmisije = idEmisije;
-        this.isFromEmisijaPanel = !idEmisije.isEmpty();
 
-        if(Boolean.TRUE.equals(isFromEmisijaPanel)) {
-            createAddNewGuestButton();
-        }
+        createAddNewGuestButton();
 
         addRefreshButton();
 
@@ -96,7 +92,7 @@ public class ListaGostijuPanel extends BaseListPanel<GostModel> {
 
     @Override
     protected void onSelected(GostModel gost) {
-        if(gost != null && isFromEmisijaPanel) {
+        if(gost != null) {
             String title = String.format("%s %s", gost.getImeGosta(), gost.getPrezimeGosta());
 
             new Gost(title, new EmisijaGostPanel(gost, idEmisije));

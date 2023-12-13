@@ -2,7 +2,7 @@ package com.processinformationsystemsui.panel.Gost.Add;
 
 import com.processinformationsystemsui.model.GostModel;
 import com.processinformationsystemsui.panel.Gost.ListaGostiju.ListaGostijuCellRenderer;
-import com.processinformationsystemsui.common.EmisijaDataChangeListener;
+import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformatuionsystemsui.api.GostApiResources;
 
 import javax.swing.*;

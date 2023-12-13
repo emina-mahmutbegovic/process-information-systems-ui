@@ -2,7 +2,7 @@ package com.processinformationsystemsui.panel.Urednik.ListaUrednika;
 
 import com.processinformationsystemsui.common.list.BaseListPanel;
 import com.processinformationsystemsui.model.UrednikModel;
-import com.processinformationsystemsui.common.EmisijaDataChangeListener;
+import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformatuionsystemsui.api.UrednikApiResources;
 
 import javax.swing.*;

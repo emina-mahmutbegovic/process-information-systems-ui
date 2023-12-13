@@ -1,6 +1,6 @@
 package com.processinformationsystemsui.panel.TerminEmitovanja.Create;
 
-import com.processinformationsystemsui.common.EpizodaDataChangeListener;
+import com.processinformationsystemsui.panel.Epizoda.Data.EpizodaDataChangeListener;
 import com.processinformationsystemsui.common.dialog.create.BaseCreateNewElementDialog;
 import com.processinformationsystemsui.model.EpizodaModel;
 

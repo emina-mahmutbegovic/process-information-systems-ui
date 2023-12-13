@@ -1,6 +1,6 @@
 package com.processinformationsystemsui.panel.TerminEmitovanja.Delete;
 
-import com.processinformationsystemsui.common.TerminEmitovanjaChangeListener;
+import com.processinformationsystemsui.panel.TerminEmitovanja.Data.TerminEmitovanjaChangeListener;
 import com.processinformationsystemsui.common.dialog.delete.BaseDeleteElementDialog;
 
 import javax.swing.*;

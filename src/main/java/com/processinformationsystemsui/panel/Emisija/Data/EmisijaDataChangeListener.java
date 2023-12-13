@@ -1,8 +1,7 @@
-package com.processinformationsystemsui.common;
+package com.processinformationsystemsui.panel.Emisija.Data;
 
 import com.processinformationsystemsui.model.GostModel;
 import com.processinformationsystemsui.panel.Epizoda.Create.CreateEpizodaModel;
-import com.processinformationsystemsui.panel.TerminEmitovanja.Create.CreateTerminEmitovanjaModel;
 
 public interface EmisijaDataChangeListener {
     void onVrstaEmisijeSelected(Object data);

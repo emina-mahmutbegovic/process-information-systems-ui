@@ -1,8 +1,8 @@
 package com.processinformationsystemsui.panel.TerminEmitovanja.ListaTerminaEmitovanja;
 
 import com.processinformationsystemsui.common.Common;
-import com.processinformationsystemsui.common.EpizodaDataChangeListener;
-import com.processinformationsystemsui.common.TerminEmitovanjaChangeListener;
+import com.processinformationsystemsui.panel.Epizoda.Data.EpizodaDataChangeListener;
+import com.processinformationsystemsui.panel.TerminEmitovanja.Data.TerminEmitovanjaChangeListener;
 import com.processinformationsystemsui.common.list.BaseListPanel;
 import com.processinformationsystemsui.model.EpizodaModel;
 import com.processinformationsystemsui.model.TerminEmitovanjaModel;

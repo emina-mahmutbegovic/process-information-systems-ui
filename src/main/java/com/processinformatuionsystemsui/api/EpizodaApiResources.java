@@ -59,9 +59,15 @@ public class EpizodaApiResources extends ApiResources<EpizodaModel> {
     }
 
     public List<EpizodaModel> getAllEpizode(String idEmisije) throws IOException {
-        String URL_WITH_QUERY = this.URL + "?idEmisije="+idEmisije;
+        String url = this.URL + "?idEmisije="+idEmisije;
 
-        return this.getAllElements(new URL(URL_WITH_QUERY));
+        return this.getAllElements(new URL(url));
+    }
+
+    public EpizodaModel updateEpizoda(EpizodaModel epizoda, String idEpizode) throws IOException {
+        String url = this.URL + "/" + idEpizode;
+
+        return this.updateElement(epizoda, new URL(url));
     }
 
     public void deleteEpizoda(String idEpizode) throws IOException {

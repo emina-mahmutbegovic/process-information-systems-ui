@@ -4,6 +4,7 @@ public class Main extends JFrame {
     public Main() {
         // Create an instance of Main panel
         MainPanel mainPanel = new MainPanel();
+        setJMenuBar(mainPanel.getMenuBar());
 
         // Set the Main panel as the content pane
         setContentPane(mainPanel);

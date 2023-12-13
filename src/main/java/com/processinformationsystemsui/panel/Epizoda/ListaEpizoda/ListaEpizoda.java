@@ -1,6 +1,6 @@
 package com.processinformationsystemsui.panel.Epizoda.ListaEpizoda;
 
-import com.processinformationsystemsui.common.EmisijaDataChangeListener;
+import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformationsystemsui.common.frame.BaseFrame;
 
 import java.io.IOException;

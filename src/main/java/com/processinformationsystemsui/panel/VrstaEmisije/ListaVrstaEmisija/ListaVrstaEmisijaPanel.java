@@ -2,7 +2,7 @@ package com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija;
 
 import com.processinformationsystemsui.common.list.BaseListPanel;
 import com.processinformationsystemsui.model.VrstaEmisijeModel;
-import com.processinformationsystemsui.common.EmisijaDataChangeListener;
+import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformatuionsystemsui.api.VrstaEmisijeApiResources;
 
 import javax.swing.*;

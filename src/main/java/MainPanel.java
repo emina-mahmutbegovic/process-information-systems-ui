@@ -3,46 +3,53 @@ import com.processinformationsystemsui.common.Common;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class MainPanel extends JPanel {
     private static final String monacoFont  = "Monaco";
+    private final JMenuBar menuBar;
+
     public MainPanel () {
         // Define content pane layout
-        setLayout(new GridBagLayout());
+        setLayout(new GridLayout(2,1));
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        Font headingFont = new Font(monacoFont, Font.BOLD, 18);
 
-        // Add title label to the top of the content pane
+        // Add title to the top of the content pane
         JLabel titleLabel = new JLabel("Dobro došli u aplikaciju za upravljanje i nadzor TV programa", SwingConstants.CENTER);
-        titleLabel.setFont(new Font(monacoFont, Font.BOLD, 18));
-        titleLabel.setVerticalAlignment(SwingConstants.CENTER);
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        addComponent(titleLabel, 0,0, gbc);
+        titleLabel.setFont(headingFont);
 
-        // Add buttons to the center of the content pane
-        JButton createNewShow = new JButton("Kreiraj novu emisiju");
-        createNewShow.setFont(new Font(monacoFont, Font.BOLD, 16));
-        createNewShow.setHorizontalAlignment(SwingConstants.CENTER);
-        createNewShow.setVerticalAlignment(SwingConstants.CENTER);
+        JLabel titleLabel1 = new JLabel("Molimo Vas da odaberete neku od opcija iz menija", SwingConstants.CENTER);
+        titleLabel1.setFont(headingFont);
 
-        JButton getAllShows = new JButton("Prikaži sve emisije");
-        getAllShows.setFont(new Font(monacoFont, Font.BOLD, 16));
-        getAllShows.setHorizontalAlignment(SwingConstants.CENTER);
-        getAllShows.setVerticalAlignment(SwingConstants.CENTER);
+        add(titleLabel);
+        add(titleLabel1);
 
-        gbc.insets = new Insets(100, 5, 2, 5); // Add some padding
+        // Create a menu bar
+        menuBar = new JMenuBar();
 
-        gbc.gridwidth = 2; // Make the button span across two columns
-        gbc.gridy = 2;
+        Font menuItemFont = new Font(monacoFont, Font.BOLD, 16);
+        // Create menu items
+        JMenuItem emisijeMenuItem = new JMenuItem("Emisije");
+        emisijeMenuItem.setFont(menuItemFont);
+        emisijeMenuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        addComponent(createNewShow, 0, 4, gbc);
-        addComponent(getAllShows, 0, 6, gbc);
+        JMenuItem voditeljiMenuItem = new JMenuItem("Voditelji");
+        voditeljiMenuItem.setFont(menuItemFont);
+        voditeljiMenuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        Common.addMouseListener(getAllShows);
+        JMenuItem uredniciMenuItem = new JMenuItem("Urednici");
+        uredniciMenuItem.setFont(menuItemFont);
+        uredniciMenuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        // Button click actions
-        getAllShows.addActionListener(e -> {
+        JMenuItem gostiMenuItem = new JMenuItem("Gosti");
+        gostiMenuItem.setFont(menuItemFont);
+        gostiMenuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        // Add action listeners to menu items
+        emisijeMenuItem.addActionListener(e -> {
             try {
                 new ListaEmisija();
             } catch (IOException ex) {
@@ -50,14 +57,32 @@ public class MainPanel extends JPanel {
             }
         });
 
-        Common.addMouseListener(createNewShow);
+        voditeljiMenuItem.addActionListener(e -> JOptionPane.showMessageDialog(this, "Voditelji clicked"));
 
-        createNewShow.addActionListener(e -> JOptionPane.showMessageDialog(MainPanel.this, "Create New Clicked!"));
+        uredniciMenuItem.addActionListener(e -> JOptionPane.showMessageDialog(this, "Urednici clicked"));
+
+        gostiMenuItem.addActionListener(e -> JOptionPane.showMessageDialog(this, "Gosti clicked"));
+
+        // Create menus
+        JMenu mainMenu = new JMenu("Menu");
+        mainMenu.add(emisijeMenuItem);
+        mainMenu.add(voditeljiMenuItem);
+        mainMenu.add(uredniciMenuItem);
+        mainMenu.add(gostiMenuItem);
+
+        mainMenu.setFont(headingFont);
+        mainMenu.setForeground(Color.BLUE);
+        mainMenu.setBackground(Color.YELLOW);
+
+        mainMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        // Add menus to the menu bar
+        menuBar.add(mainMenu);
+
+        add(menuBar);
     }
 
-    private void addComponent(Component component, int gridx, int gridy, GridBagConstraints gbc) {
-        gbc.gridx = gridx;
-        gbc.gridy = gridy;
-        add(component, gbc);
+    public JMenuBar getMenuBar() {
+        return menuBar;
     }
 }

@@ -1,4 +1,4 @@
-package com.processinformationsystemsui.common;
+package com.processinformationsystemsui.panel.Epizoda.Data;
 
 import com.processinformationsystemsui.panel.TerminEmitovanja.Create.CreateTerminEmitovanjaModel;
 
