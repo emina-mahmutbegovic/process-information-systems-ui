@@ -6,8 +6,8 @@ public class VrstaEmisijeModel {
     private String idVrsteEmisije;
     private String nazivVrsteEmisije;
 
-    public VrstaEmisijeModel(String nazivVrsteEmisije){
-        this.idVrsteEmisije = String.valueOf(UUID.randomUUID());
+    public VrstaEmisijeModel(String nazivVrsteEmisije, String idVrsteEmisije){
+        this.idVrsteEmisije = idVrsteEmisije;
         this.nazivVrsteEmisije = nazivVrsteEmisije;
     }
 

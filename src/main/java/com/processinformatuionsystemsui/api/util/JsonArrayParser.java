@@ -1,4 +1,4 @@
-package com.processinformationsystemsui.util;
+package com.processinformatuionsystemsui.api.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

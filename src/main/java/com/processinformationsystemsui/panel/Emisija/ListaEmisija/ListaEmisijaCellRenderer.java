@@ -1,49 +1,25 @@
 package com.processinformationsystemsui.panel.Emisija.ListaEmisija;
 
+import com.processinformationsystemsui.common.list.BaseListCellRenderer;
 import com.processinformationsystemsui.model.EmisijaModel;
+import com.processinformationsystemsui.panel.Emisija.Emisija;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ListaEmisijaCellRenderer extends JPanel implements ListCellRenderer<Object> {
-    private final Font customFont = new Font("Monaco", Font.PLAIN, 14);
-    private final JLabel label;
-
+public class ListaEmisijaCellRenderer extends BaseListCellRenderer<EmisijaModel> {
     public ListaEmisijaCellRenderer() {
-        setLayout(new BorderLayout());
-
-        label = new JLabel();
-        add(label, BorderLayout.CENTER);
+        super();
     }
 
-
     @Override
-    public Component getListCellRendererComponent(
-            JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-
+    protected Object setValue() {
         if (value instanceof EmisijaModel) {
             EmisijaModel emisija = (EmisijaModel) value;
-            value = emisija.getNazivEmisije();
+            return emisija.getNazivEmisije();
         }
 
-        String numberedValue = (index + 1) + ". " + value;
-        label.setText(numberedValue);
-
-        // Set the custom font
-        label.setFont(customFont);
-
-        if (isSelected) {
-            setBackground(list.getSelectionBackground());
-            setForeground(list.getSelectionForeground());
-        } else {
-            setBackground(list.getBackground());
-            setForeground(list.getForeground());
-        }
-
-        setEnabled(list.isEnabled());
-        setOpaque(true);
-
-        return this;
+        return null;
     }
 }
 

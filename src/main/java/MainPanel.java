@@ -1,10 +1,8 @@
 import com.processinformationsystemsui.panel.Emisija.ListaEmisija.ListaEmisija;
-import com.processinformationsystemsui.util.Common;
+import com.processinformationsystemsui.common.Common;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class MainPanel extends JPanel {

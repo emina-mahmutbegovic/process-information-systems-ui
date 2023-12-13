@@ -1,7 +1,5 @@
 package com.processinformationsystemsui.model;
 
-import com.processinformationsystemsui.panel.Emisija.Emisija;
-
 public class EpizodaModel {
     private String idEpizode;
     private String nazivEpizode;

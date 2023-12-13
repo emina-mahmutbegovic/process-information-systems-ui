@@ -1,7 +1,6 @@
 package com.processinformationsystemsui.model;
 
 public class GostModel {
-
     private String idGosta;
     private String imeGosta;
     private String prezimeGosta;

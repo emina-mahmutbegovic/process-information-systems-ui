@@ -1,7 +1,4 @@
-package com.processinformationsystemsui.util;
-
-import com.processinformationsystemsui.panel.Emisija.ListaEmisija.ListaEmisijaCellRenderer;
-import com.processinformatuionsystemsui.api.ApiResources;
+package com.processinformationsystemsui.common;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class Common {
-    public static void initializeLabelsPanel(int rows, int cols, List<JLabel> labels, JPanel mainPanel, String title, PanelInterface function) {
+    public static void initializeLabelsPanel(int rows, int cols, List<JLabel> labels, JPanel mainPanel, String title, Runnable action) {
         // Panel for labels information
         JPanel labelsPanel = new JPanel(new GridLayout(rows, cols));
 
@@ -20,7 +17,7 @@ public class Common {
         editButton.setHorizontalAlignment(SwingConstants.CENTER);
         editButton.setVerticalAlignment(SwingConstants.CENTER);
 
-        editButton.addActionListener(e -> function.printOutMessage("test"));
+        editButton.addActionListener(e -> action.run());
 
         Common.addMouseListener(editButton);
 
@@ -34,6 +31,35 @@ public class Common {
 
         // Add the labels panel and button panel to the main panel
         mainPanel.add(labelsPanel);
+        mainPanel.add(buttonPanel);
+    }
+
+    public static void initializeTextAreaPanel(JTextArea textArea, JPanel mainPanel, String title, Runnable action) {
+        // Panel for labels information
+        textArea.setEditable(false);
+        textArea.setLineWrap(true); // Enable word wrap
+        textArea.setWrapStyleWord(true); // Wrap at word boundaries
+        textArea.setOpaque(false);
+
+        mainPanel.add(textArea);
+
+        JButton editButton = new JButton("EDIT");
+        editButton.setHorizontalAlignment(SwingConstants.CENTER);
+        editButton.setVerticalAlignment(SwingConstants.CENTER);
+
+        editButton.addActionListener(e -> action.run());
+
+        Common.addMouseListener(editButton);
+
+        // Create a panel for the "EDIT" button with FlowLayout
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(editButton);
+
+        // Create the main panel with a BoxLayout along the Y-axis
+        mainPanel.setBorder(BorderFactory.createTitledBorder(title));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        // Add the labels panel and button panel to the main panel
         mainPanel.add(buttonPanel);
     }
 

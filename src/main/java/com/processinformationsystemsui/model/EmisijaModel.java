@@ -1,6 +1,6 @@
 package com.processinformationsystemsui.model;
 
-import java.beans.Transient;
+import java.util.Set;
 
 public class EmisijaModel {
     private String idEmisije;
@@ -11,7 +11,7 @@ public class EmisijaModel {
     private VrstaEmisijeModel vrstaEmisije;
     private VoditeljModel voditelj;
     private UrednikModel urednik;
-    private GostModel gost;
+    private Set<GostModel> gosti;
 
     public EmisijaModel(String idEmisije,
                         String nazivEmisije,
@@ -21,7 +21,7 @@ public class EmisijaModel {
                         VrstaEmisijeModel vrstaEmisije,
                         VoditeljModel voditelj,
                         UrednikModel urednik,
-                        GostModel gost) {
+                        Set<GostModel> gosti) {
         this.idEmisije = idEmisije;
         this.nazivEmisije = nazivEmisije;
         this.opisEmisije = opisEmisije;
@@ -30,7 +30,7 @@ public class EmisijaModel {
         this.vrstaEmisije = vrstaEmisije;
         this.voditelj = voditelj;
         this.urednik = urednik;
-        this.gost = gost;
+        this.gosti = gosti;
     }
 
     public EmisijaModel() {}
@@ -99,11 +99,11 @@ public class EmisijaModel {
         this.urednik = urednik;
     }
 
-    public GostModel getGost() {
-        return gost;
+    public Set<GostModel> getGosti() {
+        return gosti;
     }
 
-    public void setGost(GostModel gost) {
-        this.gost = gost;
+    public void setGosti(Set<GostModel> gosti) {
+        this.gosti = gosti;
     }
 }
