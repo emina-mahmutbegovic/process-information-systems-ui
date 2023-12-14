@@ -1,15 +1,15 @@
 package com.processinformationsystemsui.panel.TerminEmitovanja.Delete;
 
-import com.processinformationsystemsui.panel.TerminEmitovanja.Data.TerminEmitovanjaChangeListener;
+import com.processinformationsystemsui.panel.TerminEmitovanja.Data.TerminEmitovanjaDataChangeListener;
 import com.processinformationsystemsui.common.dialog.delete.BaseDeleteElementDialog;
 
 import javax.swing.*;
 import java.io.IOException;
 
 public class DeleteTerminEmitovanjaDialog extends BaseDeleteElementDialog {
-    private final TerminEmitovanjaChangeListener listener;
+    private final TerminEmitovanjaDataChangeListener listener;
     private final String deletionQuery;
-    public DeleteTerminEmitovanjaDialog(JFrame parentFrame, TerminEmitovanjaChangeListener listener, String deletionQuery) {
+    public DeleteTerminEmitovanjaDialog(JFrame parentFrame, TerminEmitovanjaDataChangeListener listener, String deletionQuery) {
         super(parentFrame, "Delete Termin Emitovanja");
 
         this.listener = listener;

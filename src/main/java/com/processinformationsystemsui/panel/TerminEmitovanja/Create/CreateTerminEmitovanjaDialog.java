@@ -1,5 +1,7 @@
 package com.processinformationsystemsui.panel.TerminEmitovanja.Create;
 
+import com.processinformationsystemsui.common.Dimensions;
+import com.processinformationsystemsui.common.DimensionsEnum;
 import com.processinformationsystemsui.panel.Epizoda.Data.EpizodaDataChangeListener;
 import com.processinformationsystemsui.common.dialog.create.BaseCreateNewElementDialog;
 import com.processinformationsystemsui.model.EpizodaModel;
@@ -16,7 +18,7 @@ public class CreateTerminEmitovanjaDialog extends BaseCreateNewElementDialog {
     private final EpizodaDataChangeListener listener;
 
     public CreateTerminEmitovanjaDialog(JFrame parentFrame, EpizodaDataChangeListener listener, EpizodaModel epizoda) {
-        super(parentFrame, String.format("Kreiraj novi termin emitovanja za epizodu: %s", epizoda.getNazivEpizode()), 3, 2);
+        super(parentFrame, String.format("Kreiraj novi termin emitovanja za epizodu: %s", epizoda.getNazivEpizode()), DimensionsEnum.threeTimesOne.getDimensions());
 
         this.listener = listener;
 

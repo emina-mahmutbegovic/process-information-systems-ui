@@ -1,6 +1,6 @@
 package com.processinformationsystemsui.common.dialog.delete;
 
-import com.processinformationsystemsui.common.Common;
+import com.processinformationsystemsui.common.button.DeleteButton;
 import com.processinformationsystemsui.common.dialog.message.InformationMessageDialog;
 
 import javax.swing.*;
@@ -14,16 +14,9 @@ public class BaseDeleteElementDialog extends JDialog {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton deleteButton = new JButton("Delete");
-        deleteButton.setForeground(Color.red);
+        JPanel panel = new JPanel(new GridBagLayout());
 
-        panel.add(deleteButton);
-        add(panel);
-
-        Common.addMouseListener(deleteButton);
-
-        deleteButton.addActionListener(e -> {
+        Runnable deleteAction = () -> {
             // Create and show the delete confirmation dialog
             int choice = JOptionPane.showConfirmDialog(
                     this,
@@ -37,10 +30,21 @@ public class BaseDeleteElementDialog extends JDialog {
                 informationMessageDialog.showMessage("Item successfully deleted!");
                 dispose();
             }
-        });
+        };
+
+        JButton deleteButton = new DeleteButton(deleteAction);
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.insets = new Insets(10, 10, 10, 10);
+
+        panel.add(deleteButton, constraints);
+
+        add(panel);
 
         pack();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(SwingUtilities.getWindowAncestor(this));
         setSize(300, 200);
         setResizable(false);
     }

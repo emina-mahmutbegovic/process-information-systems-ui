@@ -1,5 +1,6 @@
 package com.processinformationsystemsui.model;
 
+import java.util.List;
 import java.util.Set;
 
 public class EmisijaModel {
@@ -11,7 +12,7 @@ public class EmisijaModel {
     private VrstaEmisijeModel vrstaEmisije;
     private VoditeljModel voditelj;
     private UrednikModel urednik;
-    private Set<GostModel> gosti;
+    private List<GostModel> gosti;
 
     public EmisijaModel(String idEmisije,
                         String nazivEmisije,
@@ -21,7 +22,7 @@ public class EmisijaModel {
                         VrstaEmisijeModel vrstaEmisije,
                         VoditeljModel voditelj,
                         UrednikModel urednik,
-                        Set<GostModel> gosti) {
+                        List<GostModel> gosti) {
         this.idEmisije = idEmisije;
         this.nazivEmisije = nazivEmisije;
         this.opisEmisije = opisEmisije;
@@ -99,11 +100,11 @@ public class EmisijaModel {
         this.urednik = urednik;
     }
 
-    public Set<GostModel> getGosti() {
+    public List<GostModel> getGosti() {
         return gosti;
     }
 
-    public void setGosti(Set<GostModel> gosti) {
+    public void setGosti(List<GostModel> gosti) {
         this.gosti = gosti;
     }
 }

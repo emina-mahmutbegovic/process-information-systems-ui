@@ -1,5 +1,7 @@
 package com.processinformationsystemsui.panel.Gost;
 
+import com.processinformationsystemsui.common.button.DeleteButton;
+import com.processinformationsystemsui.common.button.EditButton;
 import com.processinformationsystemsui.common.dialog.message.ErrorMessageDialog;
 import com.processinformationsystemsui.common.dialog.message.InformationMessageDialog;
 import com.processinformationsystemsui.model.GostModel;
@@ -56,18 +58,7 @@ public class GostPanelBase extends JPanel {
 
     protected void createActionButtons() {
         // Add action buttons
-        JButton editButton = new JButton("EDIT");
-        JButton deleteButton = new JButton("DELETE");
-        deleteButton.setForeground(Color.red);
-
-        Common.addMouseListener(editButton);
-        Common.addMouseListener(deleteButton);
-
-        editButton.addActionListener(e -> {
-            new EditGost(gost);
-        });
-
-        deleteButton.addActionListener(e -> {
+        Runnable deleteAction = () -> {
             try {
                 apiResources.deleteGost(gost.getIdGosta());
                 informationMessageDialog.showMessage(String.format("Gost %s %s uspješno obrisan!", gost.getImeGosta(), gost.getPrezimeGosta()));
@@ -75,7 +66,11 @@ public class GostPanelBase extends JPanel {
                 errorMessageDialog.showMessage(String.format("Greška prilikom brisanja gosta: %s", ex));
                 throw new RuntimeException(ex);
             }
-        });
+        };
+
+        JButton editButton = new EditButton(() -> new EditGost(gost));
+
+        JButton deleteButton = new DeleteButton(deleteAction);
 
         buttonsPanel.setBorder(BorderFactory.createTitledBorder("Dodatne opcije"));
         buttonsPanel.add(editButton);

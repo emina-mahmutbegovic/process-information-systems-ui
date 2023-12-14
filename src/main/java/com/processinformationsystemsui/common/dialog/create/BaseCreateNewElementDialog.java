@@ -1,10 +1,14 @@
 package com.processinformationsystemsui.common.dialog.create;
 
+import com.processinformationsystemsui.common.Dimensions;
+import com.processinformationsystemsui.common.button.CancelButton;
+import com.processinformationsystemsui.common.button.OkButton;
+import com.processinformationsystemsui.common.dialog.message.InformationMessageDialog;
 import com.processinformationsystemsui.common.dialog.message.ValidationErrorMessageDialog;
-import com.processinformationsystemsui.panel.TerminEmitovanja.ListaTerminaEmitovanja.ListaTerminaEmitovanja;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,14 +17,15 @@ import java.util.List;
 public class BaseCreateNewElementDialog extends JDialog {
     protected final List<JLabel> labels;
     protected final List<JTextField> textFieldList;
-    public BaseCreateNewElementDialog(JFrame parentFrame, String title, int rows, int cols) {
+    public BaseCreateNewElementDialog(JFrame parentFrame, String title, Dimensions dimensions) {
         super(parentFrame, title, true);
 
-        ValidationErrorMessageDialog validationErrorMessageDialog = new ValidationErrorMessageDialog(SwingUtilities.getWindowAncestor(this));
+        ValidationErrorMessageDialog validationErrorMessageDialog = new ValidationErrorMessageDialog(BaseCreateNewElementDialog.this);
+        InformationMessageDialog informationMessageDialog = new InformationMessageDialog(BaseCreateNewElementDialog.this);
 
         // Create a panel to hold the input fields
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(rows, cols));
+        inputPanel.setLayout(new GridLayout(dimensions.x(), dimensions.y()));
         inputPanel.setBorder(BorderFactory.createTitledBorder(""));
 
         labels = setLabels();
@@ -32,15 +37,17 @@ public class BaseCreateNewElementDialog extends JDialog {
 
         // Initialize input panel
         for(int i = 0; i < labels.size(); ++i) {
-            inputPanel.add(labels.get(i));
-            inputPanel.add(textFieldList.get(i));
+            JPanel labelPanel = new JPanel(new FlowLayout());
+            labelPanel.add(labels.get(i));
+            inputPanel.add(labelPanel);
+
+            JPanel textFieldPanel = new JPanel(new FlowLayout());
+            textFieldPanel.add(textFieldList.get(i));
+            inputPanel.add(textFieldPanel);
         }
 
         // Create OK and Cancel buttons
-        JButton okButton = new JButton("OK");
-        JButton cancelButton = new JButton("Cancel");
-
-        okButton.addActionListener(e -> {
+        Runnable okAction = () -> {
             // Validate and set inputs
             // Check if all fields are filled
             boolean isValidInput = true;
@@ -59,7 +66,8 @@ public class BaseCreateNewElementDialog extends JDialog {
                 // Process the input
                 try {
                     processData(output);
-                } catch (ParseException ex) {
+                    informationMessageDialog.showMessage("Item successfully created!");
+                } catch (ParseException | IOException ex) {
                     throw new RuntimeException(ex);
                 }
 
@@ -69,12 +77,11 @@ public class BaseCreateNewElementDialog extends JDialog {
                 // Close the dialog
                 dispose();
             }
-        });
+        };
 
-        cancelButton.addActionListener(e -> {
-            // Close the dialog without processing
-            dispose();
-        });
+        JButton okButton = new OkButton(okAction);
+
+        JButton cancelButton = new CancelButton(this::dispose);
 
         // Create a panel to hold the buttons
         JPanel buttonPanel = new JPanel();
@@ -88,7 +95,6 @@ public class BaseCreateNewElementDialog extends JDialog {
 
         pack();
         setLocationRelativeTo(parentFrame);
-        setSize(400, 300);
         setResizable(false);
     }
 
@@ -103,7 +109,7 @@ public class BaseCreateNewElementDialog extends JDialog {
     }
 
     // Method to send data to the parent panel
-    protected void processData(List<String> data) throws ParseException {
+    protected void processData(List<String> data) throws ParseException, IOException {
         // Implement in child classes
     }
 }

@@ -1,5 +1,7 @@
 package com.processinformationsystemsui.panel.Epizoda.Create;
 
+import com.processinformationsystemsui.common.Dimensions;
+import com.processinformationsystemsui.common.DimensionsEnum;
 import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformationsystemsui.common.NumberInputVerifier;
 import com.processinformationsystemsui.common.dialog.create.BaseCreateNewElementDialog;
@@ -12,7 +14,7 @@ public class CreateEpizodaDialog extends BaseCreateNewElementDialog {
     private final EmisijaDataChangeListener listener;
 
     public CreateEpizodaDialog(JFrame parentFrame, EmisijaDataChangeListener listener) {
-        super(parentFrame, "Kreiraj novu epizodu", 4, 2);
+        super(parentFrame, "Kreiraj novu epizodu", DimensionsEnum.fourTimesTwo.getDimensions());
 
         this.listener = listener;
 
@@ -48,8 +50,8 @@ public class CreateEpizodaDialog extends BaseCreateNewElementDialog {
         JTextField brojSezone = new JTextField(10);
         JTextField opisEpizode = new JTextField(10);
 
-        brojEpizode.setInputVerifier(new NumberInputVerifier());
-        brojSezone.setInputVerifier(new NumberInputVerifier());
+        brojEpizode.setInputVerifier(new NumberInputVerifier(CreateEpizodaDialog.this));
+        brojSezone.setInputVerifier(new NumberInputVerifier(CreateEpizodaDialog.this));
 
         List<JTextField> textFields = new ArrayList<>();
         textFields.add(nazivEpizode);

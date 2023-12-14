@@ -1,5 +1,7 @@
 package com.processinformationsystemsui.common;
 
+import com.processinformationsystemsui.common.button.EditButton;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -7,19 +9,13 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class Common {
-    public static void initializeLabelsPanel(int rows, int cols, List<JLabel> labels, JPanel mainPanel, String title, Runnable action) {
+    public static void initializeLabelsPanel(Dimensions dimensions, List<JLabel> labels, JPanel mainPanel, String title, Runnable action) {
         // Panel for labels information
-        JPanel labelsPanel = new JPanel(new GridLayout(rows, cols));
+        JPanel labelsPanel = new JPanel(new GridLayout(dimensions.x(), dimensions.y()));
 
         Common.addLabelsToPanel(labelsPanel, labels);
 
-        JButton editButton = new JButton("EDIT");
-        editButton.setHorizontalAlignment(SwingConstants.CENTER);
-        editButton.setVerticalAlignment(SwingConstants.CENTER);
-
-        editButton.addActionListener(e -> action.run());
-
-        Common.addMouseListener(editButton);
+        JButton editButton = new EditButton(action);
 
         // Create a panel for the "EDIT" button with FlowLayout
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -43,13 +39,7 @@ public class Common {
 
         mainPanel.add(textArea);
 
-        JButton editButton = new JButton("EDIT");
-        editButton.setHorizontalAlignment(SwingConstants.CENTER);
-        editButton.setVerticalAlignment(SwingConstants.CENTER);
-
-        editButton.addActionListener(e -> action.run());
-
-        Common.addMouseListener(editButton);
+        JButton editButton = new EditButton(action);
 
         // Create a panel for the "EDIT" button with FlowLayout
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

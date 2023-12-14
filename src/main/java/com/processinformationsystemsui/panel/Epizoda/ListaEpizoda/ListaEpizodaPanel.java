@@ -1,5 +1,6 @@
 package com.processinformationsystemsui.panel.Epizoda.ListaEpizoda;
 
+import com.processinformationsystemsui.common.button.CreateButton;
 import com.processinformationsystemsui.common.list.BaseListPanel;
 import com.processinformationsystemsui.model.EpizodaModel;
 import com.processinformationsystemsui.panel.Epizoda.Create.CreateEpizodaDialog;
@@ -11,6 +12,7 @@ import com.processinformatuionsystemsui.api.EpizodaApiResources;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListaEpizodaPanel extends BaseListPanel<EpizodaModel> {
@@ -31,20 +33,17 @@ public class ListaEpizodaPanel extends BaseListPanel<EpizodaModel> {
 
         addCreateButton();
 
-        addRefreshButton();
-
         updateList();
     }
 
     private void addCreateButton() {
-        JButton createNewEpisodeButton = new JButton("CREATE");
-        buttonPane.add(createNewEpisodeButton);
-        Common.addMouseListener(createNewEpisodeButton);
-
-        createNewEpisodeButton.addActionListener(e -> {
+        Runnable createAction = () -> {
             CreateEpizodaDialog dialog = new CreateEpizodaDialog(parentFrame, listener);
             dialog.setVisible(true);
-        });
+        };
+
+        JButton createNewEpisodeButton = new CreateButton(createAction);
+        buttonPane.add(createNewEpisodeButton);
     }
 
     @Override
@@ -56,7 +55,7 @@ public class ListaEpizodaPanel extends BaseListPanel<EpizodaModel> {
     protected void onSelected(EpizodaModel epizoda) throws IOException {
         if (epizoda != null) {
             String title = String.format("%s: %s", epizoda.getEmisija().getNazivEmisije(), epizoda.getNazivEpizode());
-            new Epizoda(title, new EpizodaPanel(epizoda));
+            new Epizoda(title, new EpizodaPanel(epizoda, listener));
         }
     }
 
@@ -65,7 +64,10 @@ public class ListaEpizodaPanel extends BaseListPanel<EpizodaModel> {
         listModel.clear();
 
         // Get all epizoda
-        List<EpizodaModel> epizode = apiResources.getAllEpizode(idEmisije);
+        List<EpizodaModel> epizode;
+
+        if(idEmisije == null) epizode = new ArrayList<>();
+        else epizode = apiResources.getAllEpizode(idEmisije);
 
         listModel.addAll(epizode);
 

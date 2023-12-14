@@ -1,10 +1,5 @@
 package com.processinformationsystemsui.panel.Emisija.Create;
 
-import com.processinformationsystemsui.model.GostModel;
-import com.processinformationsystemsui.model.UrednikModel;
-import com.processinformationsystemsui.model.VoditeljModel;
-import com.processinformationsystemsui.model.VrstaEmisijeModel;
-
 import java.util.Set;
 
 public class CreateEmisijaModel {
@@ -12,27 +7,27 @@ public class CreateEmisijaModel {
     private String opisEmisije;
     private int trajanjeEmisije;
     private int ocjenaEmisije;
-    private VrstaEmisijeModel vrstaEmisije;
-    private VoditeljModel voditelj;
-    private UrednikModel urednik;
-    private Set<GostModel> gosti;
+    private String idVrsteEmisije;
+    private String idVoditelja;
+    private String idUrednika;
+    private Set<String> idGostiju;
 
     public CreateEmisijaModel(String nazivEmisije,
                         String opisEmisije,
                         int trajanjeEmisije,
                         int ocjenaEmisije,
-                        VrstaEmisijeModel vrstaEmisije,
-                        VoditeljModel voditelj,
-                        UrednikModel urednik,
-                        Set<GostModel> gosti) {
+                        String idVrsteEmisije,
+                        String idVoditelja,
+                        String idUrednika,
+                        Set<String> idGostiju) {
         this.nazivEmisije = nazivEmisije;
         this.opisEmisije = opisEmisije;
         this.trajanjeEmisije = trajanjeEmisije;
         this.ocjenaEmisije = ocjenaEmisije;
-        this.vrstaEmisije = vrstaEmisije;
-        this.voditelj = voditelj;
-        this.urednik = urednik;
-        this.gosti = gosti;
+        this.idVrsteEmisije = idVrsteEmisije;
+        this.idVoditelja = idVoditelja;
+        this.idUrednika = idUrednika;
+        this.idGostiju = idGostiju;
     }
 
     public String getNazivEmisije() {
@@ -67,35 +62,35 @@ public class CreateEmisijaModel {
         this.ocjenaEmisije = ocjenaEmisije;
     }
 
-    public VrstaEmisijeModel getVrstaEmisije() {
-        return vrstaEmisije;
+    public String getIdVrsteEmisije() {
+        return idVrsteEmisije;
     }
 
-    public void setVrstaEmisije(VrstaEmisijeModel vrstaEmisije) {
-        this.vrstaEmisije = vrstaEmisije;
+    public void setIdVrsteEmisije(String idVrsteEmisije) {
+        this.idVrsteEmisije = idVrsteEmisije;
     }
 
-    public VoditeljModel getVoditelj() {
-        return voditelj;
+    public String getIdVoditelja() {
+        return idVoditelja;
     }
 
-    public void setVoditelj(VoditeljModel voditelj) {
-        this.voditelj = voditelj;
+    public void setIdVoditelja(String idVoditelja) {
+        this.idVoditelja = idVoditelja;
     }
 
-    public UrednikModel getUrednik() {
-        return urednik;
+    public String getIdUrednika() {
+        return idUrednika;
     }
 
-    public void setUrednik(UrednikModel urednik) {
-        this.urednik = urednik;
+    public void setIdUrednika(String idUrednika) {
+        this.idUrednika = idUrednika;
     }
 
-    public Set<GostModel> getGosti() {
-        return gosti;
+    public Set<String> getIdGostiju() {
+        return idGostiju;
     }
 
-    public void setGosti(Set<GostModel> gosti) {
-        this.gosti = gosti;
+    public void setIdGostiju(Set<String> idGostiju) {
+        this.idGostiju = idGostiju;
     }
 }

@@ -1,7 +1,5 @@
 package com.processinformationsystemsui.common.list;
 
-import com.processinformationsystemsui.common.Common;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -60,24 +58,9 @@ public class BaseListPanel<T> extends JPanel {
 
         // Add the JScrollPane to the panel
         add(scrollPane, BorderLayout.CENTER);
-    }
 
-    protected void addRefreshButton() {
-        // Add refresh button
-        JButton refreshButton = new JButton("REFRESH LIST");
-        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.Y_AXIS));
-        buttonPane.add(refreshButton);
+        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
         add(buttonPane, BorderLayout.EAST);
-
-        Common.addMouseListener(refreshButton);
-
-        refreshButton.addActionListener(e -> {
-            try {
-                updateList();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
     }
 
     protected BaseListCellRenderer<T> setCellRenderer() {

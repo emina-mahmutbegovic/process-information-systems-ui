@@ -1,9 +1,7 @@
 package com.processinformationsystemsui.panel.Emisija.ListaEmisija;
 
 import com.processinformationsystemsui.common.frame.BaseFrame;
-import com.processinformationsystemsui.panel.Epizoda.ListaEpizoda.ListaEpizodaPanel;
 
-import javax.swing.*;
 import java.io.IOException;
 
 public class ListaEmisija extends BaseFrame {

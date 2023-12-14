@@ -21,10 +21,6 @@ public class ListaVoditeljaPanel extends BaseListPanel<VoditeljModel> {
         this.listener = listener;
         this.isFromEmisijaPanel = isFromEmisijaPanel;
 
-        if(Boolean.FALSE.equals(isFromEmisijaPanel)) {
-            addRefreshButton();
-        }
-
         updateList();
     }
 

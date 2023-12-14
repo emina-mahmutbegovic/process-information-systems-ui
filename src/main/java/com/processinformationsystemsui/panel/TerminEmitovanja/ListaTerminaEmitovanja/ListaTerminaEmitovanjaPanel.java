@@ -1,8 +1,8 @@
 package com.processinformationsystemsui.panel.TerminEmitovanja.ListaTerminaEmitovanja;
 
-import com.processinformationsystemsui.common.Common;
+import com.processinformationsystemsui.common.button.CreateButton;
 import com.processinformationsystemsui.panel.Epizoda.Data.EpizodaDataChangeListener;
-import com.processinformationsystemsui.panel.TerminEmitovanja.Data.TerminEmitovanjaChangeListener;
+import com.processinformationsystemsui.panel.TerminEmitovanja.Data.TerminEmitovanjaDataChangeListener;
 import com.processinformationsystemsui.common.list.BaseListPanel;
 import com.processinformationsystemsui.model.EpizodaModel;
 import com.processinformationsystemsui.model.TerminEmitovanjaModel;
@@ -14,39 +14,35 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
 
-public class ListaTerminaEmitovanjaPanel extends BaseListPanel<TerminEmitovanjaModel> implements TerminEmitovanjaChangeListener {
+public class ListaTerminaEmitovanjaPanel extends BaseListPanel<TerminEmitovanjaModel> implements TerminEmitovanjaDataChangeListener {
     private final TerminEmitovanjaApiResources apiResources = new TerminEmitovanjaApiResources();
     private final EpizodaModel epizoda;
-    private final Boolean isFromMain = false;
     private final JFrame parentFrame;
-    private final EpizodaDataChangeListener listener;
+    private final EpizodaDataChangeListener epizodaDataChangeListener;
 
     public ListaTerminaEmitovanjaPanel(EpizodaModel epizoda,
-                                       EpizodaDataChangeListener listener,
+                                       EpizodaDataChangeListener epizodaDataChangeListener,
                                        JFrame parentFrame) throws IOException {
         super();
 
         this.parentFrame = parentFrame;
-        this.listener = listener;
+        this.epizodaDataChangeListener = epizodaDataChangeListener;
 
         this.epizoda = epizoda;
 
         addCreateButton();
 
-        addRefreshButton();
-
         updateList();
     }
 
     private void addCreateButton() {
-        JButton createNewTimeAndDateButton = new JButton("CREATE");
-        buttonPane.add(createNewTimeAndDateButton);
-        Common.addMouseListener(createNewTimeAndDateButton);
+        Runnable createAction = () -> {
+           CreateTerminEmitovanjaDialog dialog = new CreateTerminEmitovanjaDialog(parentFrame, epizodaDataChangeListener, epizoda);
+           dialog.setVisible(true);
+        };
 
-        createNewTimeAndDateButton.addActionListener(e -> {
-            CreateTerminEmitovanjaDialog dialog = new CreateTerminEmitovanjaDialog(parentFrame, listener, epizoda);
-            dialog.setVisible(true);
-        });
+        JButton createNewTimeAndDateButton = new CreateButton(createAction);
+        buttonPane.add(createNewTimeAndDateButton);
     }
 
     @Override
@@ -78,6 +74,9 @@ public class ListaTerminaEmitovanjaPanel extends BaseListPanel<TerminEmitovanjaM
     @Override
     public void onDeleteTerminEmitovanja(String deletionQuery) throws IOException {
         apiResources.deleteTerminEmitovanja(deletionQuery);
+
+        // Emit delete termin emitovanja from epizoda
+        epizodaDataChangeListener.onTerminEmitovanjaDeleted();
     }
 }
 

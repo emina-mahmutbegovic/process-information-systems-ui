@@ -1,5 +1,6 @@
 package com.processinformationsystemsui.panel.Gost.ListaGostiju;
 
+import com.processinformationsystemsui.common.button.AddButton;
 import com.processinformationsystemsui.common.list.BaseListPanel;
 import com.processinformationsystemsui.model.GostModel;
 import com.processinformationsystemsui.model.GostujeModel;
@@ -26,6 +27,8 @@ public class ListaGostijuPanel extends BaseListPanel<GostModel> {
     private final String idEmisije;
     private final JFrame parentFrame;
     private final EmisijaDataChangeListener listener;
+    private List<GostModel> gosti;
+
 
     public ListaGostijuPanel(String idEmisije, EmisijaDataChangeListener listener, JFrame parentFrame) throws IOException {
         super();
@@ -36,17 +39,11 @@ public class ListaGostijuPanel extends BaseListPanel<GostModel> {
 
         createAddNewGuestButton();
 
-        addRefreshButton();
-
         updateList();
     }
 
     private void createAddNewGuestButton() {
-        JButton addNewGuest = new JButton("ADD");
-        buttonPane.add(addNewGuest);
-        Common.addMouseListener(addNewGuest);
-
-        addNewGuest.addActionListener(e -> {
+        Runnable addAction = () -> {
             ListaGostijuDialog dialog;
             try {
                 dialog = new ListaGostijuDialog(parentFrame, listener);
@@ -54,17 +51,20 @@ public class ListaGostijuPanel extends BaseListPanel<GostModel> {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-        });
+        };
+
+        JButton addNewGuest = new AddButton(addAction);
+        buttonPane.add(addNewGuest);
     }
 
     @Override
     public void updateList() throws IOException {
         listModel.clear();
 
-        // Get all gosti
-        List<GostModel> gosti;
         //Find all guests
-        if(idEmisije.isEmpty()) {
+        if(idEmisije == null) {
+            gosti = new ArrayList<>();
+        } else if(idEmisije.isEmpty()) {
             gosti = gostAPIResources.getAllGosti(new HashSet<>());
         } else {
             // find guests by TV show id
@@ -95,7 +95,11 @@ public class ListaGostijuPanel extends BaseListPanel<GostModel> {
         if(gost != null) {
             String title = String.format("%s %s", gost.getImeGosta(), gost.getPrezimeGosta());
 
-            new Gost(title, new EmisijaGostPanel(gost, idEmisije));
+            new Gost(title, new EmisijaGostPanel(gost, idEmisije, listener));
         }
+    }
+
+    public List<GostModel> getGosti() {
+        return gosti;
     }
 }

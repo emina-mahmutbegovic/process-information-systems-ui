@@ -1,6 +1,10 @@
 package com.processinformationsystemsui.panel.Epizoda;
 
 import com.processinformationsystemsui.common.Common;
+import com.processinformationsystemsui.common.DimensionsEnum;
+import com.processinformationsystemsui.common.button.DeleteButton;
+import com.processinformationsystemsui.common.button.SaveButton;
+import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformationsystemsui.panel.Epizoda.Data.EpizodaDataChangeListener;
 import com.processinformationsystemsui.common.NumberInputVerifier;
 import com.processinformationsystemsui.common.dialog.message.ErrorMessageDialog;
@@ -40,8 +44,12 @@ public class EpizodaPanel extends JPanel implements EpizodaDataChangeListener {
     private final ErrorMessageDialog errorMessageDialog = new ErrorMessageDialog(EpizodaPanel.this);
     private final ValidationErrorMessageDialog validationErrorMessageDialog = new ValidationErrorMessageDialog(EpizodaPanel.this);
 
-    public EpizodaPanel(EpizodaModel epizoda) throws IOException {
+    // Data exchange
+    private final EmisijaDataChangeListener emisijaDataChangeListener;
+
+    public EpizodaPanel(EpizodaModel epizoda, EmisijaDataChangeListener emisijaDataChangeListener) throws IOException {
         this.epizoda = epizoda;
+        this.emisijaDataChangeListener = emisijaDataChangeListener;
 
         setLayout(new GridLayout(2, 2));
 
@@ -53,7 +61,7 @@ public class EpizodaPanel extends JPanel implements EpizodaDataChangeListener {
         nazivEpizodeLabels.add(nazivEpizode);
 
         Runnable openEditNazivEpizode = () -> {
-            String newValue = JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(this),
+            String newValue = JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(EpizodaPanel.this),
                     "Unesi novu vrijednost naziva epizode:", nazivEpizode.getText());
             if (!newValue.isBlank()) {
                 nazivEpizode.setText(newValue);
@@ -63,14 +71,14 @@ public class EpizodaPanel extends JPanel implements EpizodaDataChangeListener {
         };
 
         Common.initializeLabelsPanel(
-                2, 2, nazivEpizodeLabels, nazivEpizodePanel, "Naziv epizode", openEditNazivEpizode);
+                DimensionsEnum.twoTimesTwo.getDimensions(), nazivEpizodeLabels, nazivEpizodePanel, "Naziv epizode", openEditNazivEpizode);
 
         // Add description
         opisEpizode = new JTextArea(epizoda.getOpisEpizode());
         JPanel opisEpizodePanel = new JPanel();
 
         Runnable openEditOpisEpizode = () -> {
-            String newValue = JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(this),
+            String newValue = JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(EpizodaPanel.this),
                     "Unesi novu vrijednost opisa epizode:", opisEpizode.getText());
             if (!newValue.isBlank()) {
                 opisEpizode.setText(newValue);
@@ -100,14 +108,14 @@ public class EpizodaPanel extends JPanel implements EpizodaDataChangeListener {
         brojEpizodeLabels.add(brojEpizode);
 
         Runnable openEditBrojEpizode = () -> {
-            String newValue = JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(this),
+            String newValue = JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(EpizodaPanel.this),
                     "Unesi novu vrijednost epizode:", brojEpizode.getText());
             if (newValue != null && NumberInputVerifier.verify(newValue)) {
                 brojEpizode.setText(newValue);
             }
         };
 
-        Common.initializeLabelsPanel(2, 2, brojEpizodeLabels, brojEpizodePanel, "Broj epizode", openEditBrojEpizode);
+        Common.initializeLabelsPanel(DimensionsEnum.twoTimesTwo.getDimensions(), brojEpizodeLabels, brojEpizodePanel, "Broj epizode", openEditBrojEpizode);
 
         // Add sezona number
         brojSezone = new JLabel(String.valueOf(epizoda.getBrojSezone()));
@@ -117,14 +125,14 @@ public class EpizodaPanel extends JPanel implements EpizodaDataChangeListener {
         brojSezoneLabels.add(brojSezone);
 
         Runnable openEditBrojSezone = () -> {
-            String newValue = JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(this),
+            String newValue = JOptionPane.showInputDialog(SwingUtilities.getWindowAncestor(EpizodaPanel.this),
                     "Unesi novu vrijednost sezone:", brojSezone.getText());
             if (newValue != null && NumberInputVerifier.verify(newValue)) {
                 brojSezone.setText(newValue);
             }
         };
 
-        Common.initializeLabelsPanel(2, 2, brojSezoneLabels, brojSezonePanel, "Broj sezone", openEditBrojSezone);
+        Common.initializeLabelsPanel(DimensionsEnum.twoTimesTwo.getDimensions(), brojSezoneLabels, brojSezonePanel, "Broj sezone", openEditBrojSezone);
 
         episodeAndSeasonPanel.add(brojEpizodePanel);
         episodeAndSeasonPanel.add(brojSezonePanel);
@@ -132,7 +140,7 @@ public class EpizodaPanel extends JPanel implements EpizodaDataChangeListener {
         add(episodeAndSeasonPanel);
 
         listaTerminaEmitovanjaPanel = new ListaTerminaEmitovanjaPanel(
-                epizoda, this, (JFrame) SwingUtilities.getWindowAncestor(this));
+                epizoda, this, (JFrame) SwingUtilities.getWindowAncestor(EpizodaPanel.this));
 
         listaTerminaEmitovanjaPanel.setBorder(BorderFactory.createTitledBorder("Termini emitovanja"));
         add(listaTerminaEmitovanjaPanel);
@@ -142,19 +150,7 @@ public class EpizodaPanel extends JPanel implements EpizodaDataChangeListener {
     }
 
     void initializeActionButtonsPanel() {
-        JButton saveButton = new JButton("SAVE");
-
-        JButton deleteButton = new JButton("DELETE");
-        deleteButton.setForeground(Color.red);
-
-        actionButtonsPanel.setBorder(BorderFactory.createTitledBorder("Opcije"));
-        actionButtonsPanel.add(saveButton);
-        actionButtonsPanel.add(deleteButton);
-
-        Common.addMouseListener(saveButton);
-        Common.addMouseListener(deleteButton);
-
-        saveButton.addActionListener(e-> {
+        Runnable saveButtonAction = () -> {
             try {
                 epizoda.setNazivEpizode(nazivEpizode.getText());
                 epizoda.setOpisEpizode(opisEpizode.getText());
@@ -167,11 +163,15 @@ public class EpizodaPanel extends JPanel implements EpizodaDataChangeListener {
                 errorMessageDialog.showMessage(String.format("Greška prilikom snimanja epizode: %s", ex));
                 throw new RuntimeException(ex);
             }
-        });
+        };
 
-        deleteButton.addActionListener(e-> {
+        Runnable deleteButtonAction = () -> {
             try {
                 epizodaApiResources.deleteEpizoda(epizoda.getIdEpizode());
+
+                // Emit deleted event
+                emisijaDataChangeListener.onEpizodaDeleted();
+
                 informationMessageDialog.showMessage(String.format("Epizoda %s je uspješno obrisana sa emisije: %s", epizoda.getNazivEpizode(), epizoda.getEmisija().getNazivEmisije()));
                 JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(this);
 
@@ -180,7 +180,14 @@ public class EpizodaPanel extends JPanel implements EpizodaDataChangeListener {
                 errorMessageDialog.showMessage(String.format("Greška prilikom brisanja epizode: %s", ex));
                 throw new RuntimeException(ex);
             }
-        });
+        };
+
+        JButton saveButton = new SaveButton(saveButtonAction);
+        JButton deleteButton = new DeleteButton(deleteButtonAction);
+
+        actionButtonsPanel.setBorder(BorderFactory.createTitledBorder("Opcije"));
+        actionButtonsPanel.add(saveButton);
+        actionButtonsPanel.add(deleteButton);
     }
 
     @Override
@@ -193,5 +200,10 @@ public class EpizodaPanel extends JPanel implements EpizodaDataChangeListener {
             errorMessageDialog.showMessage(String.format("Greska prilikom kreiranja epizode! %s", e.getMessage()));
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void onTerminEmitovanjaDeleted() throws IOException {
+        listaTerminaEmitovanjaPanel.updateList();
     }
 }

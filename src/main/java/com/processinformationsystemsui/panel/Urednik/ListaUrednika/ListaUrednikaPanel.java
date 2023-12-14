@@ -20,10 +20,6 @@ public class ListaUrednikaPanel extends BaseListPanel<UrednikModel> {
         this.listener = listener;
         this.isFromEmisijaPanel = isFromEmisijaPanel;
 
-        if(Boolean.FALSE.equals(isFromEmisijaPanel)) {
-            addRefreshButton();
-        }
-
         updateList();
     }
 

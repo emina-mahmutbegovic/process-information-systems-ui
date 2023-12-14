@@ -1,10 +1,13 @@
+import com.processinformationsystemsui.common.menu.BaseMenuItem;
 import com.processinformationsystemsui.panel.Emisija.ListaEmisija.ListaEmisija;
-import com.processinformationsystemsui.common.Common;
+import com.processinformationsystemsui.panel.Gost.ListaGostiju.ListaGostiju;
+import com.processinformationsystemsui.panel.Urednik.ListaUrednika.ListaUrednika;
+import com.processinformationsystemsui.panel.Voditelj.ListaVoditelja.ListaVoditelja;
+import com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija.Edit.ListaVrstaEmisijaEdit;
+import com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija.ListaVrstaEmisijaBaseFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class MainPanel extends JPanel {
@@ -30,42 +33,62 @@ public class MainPanel extends JPanel {
         // Create a menu bar
         menuBar = new JMenuBar();
 
-        Font menuItemFont = new Font(monacoFont, Font.BOLD, 16);
-        // Create menu items
-        JMenuItem emisijeMenuItem = new JMenuItem("Emisije");
-        emisijeMenuItem.setFont(menuItemFont);
-        emisijeMenuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        JMenuItem voditeljiMenuItem = new JMenuItem("Voditelji");
-        voditeljiMenuItem.setFont(menuItemFont);
-        voditeljiMenuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        JMenuItem uredniciMenuItem = new JMenuItem("Urednici");
-        uredniciMenuItem.setFont(menuItemFont);
-        uredniciMenuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        JMenuItem gostiMenuItem = new JMenuItem("Gosti");
-        gostiMenuItem.setFont(menuItemFont);
-        gostiMenuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        // Add action listeners to menu items
-        emisijeMenuItem.addActionListener(e -> {
+        // Create open menu item actions
+        Runnable openEmisijaAction = () -> {
             try {
                 new ListaEmisija();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-        });
+        };
 
-        voditeljiMenuItem.addActionListener(e -> JOptionPane.showMessageDialog(this, "Voditelji clicked"));
+        Runnable openVrsteEmisijaAction = () -> {
+            try {
+                new ListaVrstaEmisijaEdit();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        };
 
-        uredniciMenuItem.addActionListener(e -> JOptionPane.showMessageDialog(this, "Urednici clicked"));
+        Runnable openVoditeljiAction = () -> {
+            try {
+                new ListaVoditelja(null, false);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        };
 
-        gostiMenuItem.addActionListener(e -> JOptionPane.showMessageDialog(this, "Gosti clicked"));
+        Runnable openUredniciAction = () -> {
+            try {
+                new ListaUrednika(null, false);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        };
+
+        Runnable openGostiAction = () -> {
+            try {
+                new ListaGostiju(null);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        };
+
+        // Create menu items
+        JMenuItem emisijeMenuItem = new BaseMenuItem("Emisije", openEmisijaAction);
+
+        JMenuItem vrsteEmisijaMenuItem = new BaseMenuItem("Vrste emisija", openVrsteEmisijaAction);
+
+        JMenuItem voditeljiMenuItem = new BaseMenuItem("Voditelji", openVoditeljiAction);
+
+        JMenuItem uredniciMenuItem = new BaseMenuItem("Urednici", openUredniciAction);
+
+        JMenuItem gostiMenuItem = new BaseMenuItem("Gosti", openGostiAction);
 
         // Create menus
         JMenu mainMenu = new JMenu("Menu");
         mainMenu.add(emisijeMenuItem);
+        mainMenu.add(vrsteEmisijaMenuItem);
         mainMenu.add(voditeljiMenuItem);
         mainMenu.add(uredniciMenuItem);
         mainMenu.add(gostiMenuItem);
