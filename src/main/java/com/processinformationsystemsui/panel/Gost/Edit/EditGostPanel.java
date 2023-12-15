@@ -1,40 +1,46 @@
 package com.processinformationsystemsui.panel.Gost.Edit;
 
-import com.processinformationsystemsui.common.dialog.message.ErrorMessageDialog;
-import com.processinformationsystemsui.common.dialog.message.InformationMessageDialog;
-import com.processinformationsystemsui.common.dialog.message.ValidationErrorMessageDialog;
+import com.processinformationsystemsui.common.DimensionsEnum;
+import com.processinformationsystemsui.common.panel.BaseEditPanel;
 import com.processinformationsystemsui.model.GostModel;
 import com.processinformationsystemsui.common.Common;
+import com.processinformationsystemsui.model.UrednikModel;
+import com.processinformationsystemsui.panel.Gost.Data.GostDataChangeListener;
 import com.processinformatuionsystemsui.api.GostApiResources;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class EditGostPanel extends JPanel {
+public class EditGostPanel extends BaseEditPanel<GostModel> {
+    private JTextField imeGostaValue;
+    private JTextField prezimeGostaValue;
+    private JTextField biografijaGostaValue;
+    private JTextField kontaktTelefonGostaValue;
 
     private final GostApiResources apiResources = new GostApiResources();
 
-    private final InformationMessageDialog informationMessageDialog = new InformationMessageDialog(EditGostPanel.this);
-    private final ValidationErrorMessageDialog validationErrorMessageDialog = new ValidationErrorMessageDialog(EditGostPanel.this);
-    private final ErrorMessageDialog errorMessageDialog = new ErrorMessageDialog(EditGostPanel.this);
+    private final GostDataChangeListener listener;
 
-    public EditGostPanel(GostModel gost, JFrame parentFrame) {
+    public EditGostPanel(GostModel gost, GostDataChangeListener listener) {
+        super("Podaci o gostu", gost, DimensionsEnum.twoTimesOne.getDimensions());
 
-        setLayout(new GridLayout(2, 1));
+        this.listener = listener;
+    }
 
-        // Create base data panel
+    @Override
+    protected JPanel initializeDataPanel() {
         JLabel imeGosta = new JLabel("Ime gosta");
-        JTextField imeGostaValue = new JTextField(gost.getImeGosta());
+        imeGostaValue = new JTextField(element.getImeGosta());
 
         JLabel prezimeGosta = new JLabel("Prezime gosta");
-        JTextField prezimeGostaValue = new JTextField(gost.getPrezimeGosta());
+        prezimeGostaValue = new JTextField(element.getPrezimeGosta());
 
         JLabel biografijaGosta = new JLabel("Biografija gosta");
-        JTextField biografijaGostaValue = new JTextField(gost.getBiografijaGosta());
+        biografijaGostaValue = new JTextField(element.getBiografijaGosta());
 
         JLabel kontaktTelefonGosta = new JLabel("Kontakt telefon gosta");
-        JTextField kontaktTelefonGostaValue = new JTextField(gost.getKontaktTelefonGosta());
+        kontaktTelefonGostaValue = new JTextField(element.getKontaktTelefonGosta());
 
         JPanel dataPanel = new JPanel(new GridLayout(4, 2));
         dataPanel.add(imeGosta);
@@ -45,59 +51,52 @@ public class EditGostPanel extends JPanel {
         dataPanel.add(biografijaGostaValue);
         dataPanel.add(kontaktTelefonGosta);
         dataPanel.add(kontaktTelefonGostaValue);
-        dataPanel.setBorder(BorderFactory.createTitledBorder("Podaci o gostu"));
 
-        add(dataPanel);
+        return dataPanel;
+    }
 
-        // Create action buttons panel
-        JButton saveButton = new JButton("SAVE");
-        Common.addMouseListener(saveButton);
-        JButton getAllButton = new JButton("DISPLAY GUESTS");
-        Common.addMouseListener(getAllButton);
-        JButton deleteButton = new JButton("DELETE");
-        Common.addMouseListener(deleteButton);
-        deleteButton.setForeground(Color.RED);
-        JPanel buttonsPanel = new JPanel(new FlowLayout());
-
-        // Define action listeners
-        getAllButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Get all clicked");
-        });
-
-        saveButton.addActionListener(e -> {
+    @Override
+    protected Runnable initializeSaveAction() {
+        return () ->  {
             if(imeGostaValue.getText().isEmpty() || prezimeGostaValue.getText().isEmpty() ||
                     biografijaGostaValue.getText().isEmpty() || kontaktTelefonGostaValue.getText().isEmpty()) {
                 validationErrorMessageDialog.showMessage("Polja ne smiju biti prazna!");
             }
             else {
-                GostModel newGost = new GostModel(gost.getIdGosta(),
-                        imeGostaValue.getText(), prezimeGostaValue.getText(), biografijaGostaValue.getText(), kontaktTelefonGostaValue.getText());
                 try {
-                    GostModel updatedGost = apiResources.updateGost(newGost, gost.getIdGosta());
+                    GostModel newGost = new GostModel(element.getIdGosta(),
+                            imeGostaValue.getText(), prezimeGostaValue.getText(), biografijaGostaValue.getText(), kontaktTelefonGostaValue.getText());
+
+                    element = apiResources.updateGost(newGost, element.getIdGosta());
                     informationMessageDialog.showMessage("Gost uspješno ažuriran!");
+
+                    // Emit edit event
+                    listener.onGostEdited();
+
                     // Update frame title
-                    parentFrame.setTitle(String.format("%s %s", updatedGost.getImeGosta(), updatedGost.getPrezimeGosta()));
+                    ((JFrame) SwingUtilities.getWindowAncestor(this)).setTitle(String.format("%s %s", element.getImeGosta(), element.getPrezimeGosta()));
                 } catch (IOException ex) {
                     errorMessageDialog.showMessage(String.format("Greška prilikom snimanja gosta: %s", ex));
                     throw new RuntimeException(ex);
                 }
             }
-        });
+        };
+    }
 
-        deleteButton.addActionListener(e -> {
+    @Override
+    protected Runnable initializeDeleteAction() {
+        return () -> {
             try {
-                apiResources.deleteGost(gost.getIdGosta());
-                informationMessageDialog.showMessage(String.format("Gost %s %s uspješno obrisan!", gost.getImeGosta(), gost.getPrezimeGosta()));
+                apiResources.deleteGost(element.getIdGosta());
+
+                // Emit delete event
+                listener.onGostDeleted();
+
+                informationMessageDialog.showMessage(String.format("Gost %s %s uspješno obrisan!", element.getImeGosta(), element.getPrezimeGosta()));
             } catch (IOException ex) {
                 errorMessageDialog.showMessage(String.format("Greška prilikom brisanja gosta: %s", ex));
                 throw new RuntimeException(ex);
             }
-        });
-
-        buttonsPanel.add(getAllButton);
-        buttonsPanel.add(saveButton);
-        buttonsPanel.add(deleteButton);
-
-        add(buttonsPanel);
+        };
     }
 }

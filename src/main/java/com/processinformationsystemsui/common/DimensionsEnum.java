@@ -6,6 +6,7 @@ public enum DimensionsEnum {
     twoTimesOne(new Dimensions(2,1)),
     twoTimesTwo(new Dimensions(2, 2)),
     threeTimesOne(new Dimensions(3,1)),
+    fourTimesOne(new Dimensions(4, 1)),
     fourTimesTwo(new Dimensions(4, 2));
 
     private final Dimensions dimensions;

@@ -46,7 +46,7 @@ public class VrstaEmisijeApiResources extends ApiResources<VrstaEmisijeModel> {
                 throw new IOException("HTTP error code: " + connection.getResponseCode());
             }
         } catch (Exception ex) {
-            throw new IOException("Could not create new episode.", ex);
+            throw new IOException("Could not create new vrsta emisije.", ex);
         } finally {
             connection.disconnect();
         }

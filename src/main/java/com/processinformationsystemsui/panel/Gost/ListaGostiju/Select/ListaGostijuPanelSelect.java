@@ -1,36 +1,27 @@
-package com.processinformationsystemsui.panel.Gost.ListaGostiju;
+package com.processinformationsystemsui.panel.Gost.ListaGostiju.Select;
 
 import com.processinformationsystemsui.common.button.AddButton;
-import com.processinformationsystemsui.common.list.BaseListPanel;
 import com.processinformationsystemsui.model.GostModel;
 import com.processinformationsystemsui.model.GostujeModel;
+import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformationsystemsui.panel.Gost.Add.ListaGostijuDialog;
 import com.processinformationsystemsui.panel.Gost.EmisijaGostPanel;
 import com.processinformationsystemsui.panel.Gost.Gost;
-import com.processinformationsystemsui.common.Common;
-import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
-import com.processinformatuionsystemsui.api.GostApiResources;
-import com.processinformatuionsystemsui.api.GostujeApiResources;
+import com.processinformationsystemsui.panel.Gost.ListaGostiju.ListaGostijuPanelBase;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ListaGostijuPanel extends BaseListPanel<GostModel> {
-    private final GostApiResources gostAPIResources = new GostApiResources();
-    private final GostujeApiResources gostujeAPIResources = new GostujeApiResources();
-
-    private final String idEmisije;
+public class ListaGostijuPanelSelect extends ListaGostijuPanelBase {
     private final JFrame parentFrame;
     private final EmisijaDataChangeListener listener;
-    private List<GostModel> gosti;
+    private final String idEmisije;
 
-
-    public ListaGostijuPanel(String idEmisije, EmisijaDataChangeListener listener, JFrame parentFrame) throws IOException {
+    public ListaGostijuPanelSelect(String idEmisije, EmisijaDataChangeListener listener, JFrame parentFrame) throws IOException {
         super();
 
         this.parentFrame = parentFrame;
@@ -64,8 +55,6 @@ public class ListaGostijuPanel extends BaseListPanel<GostModel> {
         //Find all guests
         if(idEmisije == null) {
             gosti = new ArrayList<>();
-        } else if(idEmisije.isEmpty()) {
-            gosti = gostAPIResources.getAllGosti(new HashSet<>());
         } else {
             // find guests by TV show id
             List<GostujeModel> gostuje = gostujeAPIResources.getAllGostujeByEmisijaId(idEmisije);
@@ -83,11 +72,6 @@ public class ListaGostijuPanel extends BaseListPanel<GostModel> {
         listModel.addAll(gosti);
 
         itemList.repaint();
-    }
-
-    @Override
-    protected ListaGostijuCellRenderer setCellRenderer() {
-        return new ListaGostijuCellRenderer();
     }
 
     @Override

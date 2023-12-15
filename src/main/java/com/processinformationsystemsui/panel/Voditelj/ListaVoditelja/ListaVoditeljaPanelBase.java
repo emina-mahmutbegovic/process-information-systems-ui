@@ -39,8 +39,8 @@ public class ListaVoditeljaPanelBase extends BaseListPanel<VoditeljModel> implem
     }
 
     @Override
-    public void onVoditeljCreated(CreateVoditeljModel createVoditeljModel) throws IOException {
-        apiResources.createVoditelj(createVoditeljModel);
+    public void onVoditeljCreated(CreateVoditeljModel data) throws IOException {
+        apiResources.createVoditelj(data);
 
         updateList();
     }
@@ -54,6 +54,4 @@ public class ListaVoditeljaPanelBase extends BaseListPanel<VoditeljModel> implem
     public void onVoditeljDeleted() throws IOException {
         updateList();
     }
-
-
 }

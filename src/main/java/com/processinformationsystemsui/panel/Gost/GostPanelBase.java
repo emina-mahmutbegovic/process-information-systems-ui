@@ -68,12 +68,9 @@ public class GostPanelBase extends JPanel {
             }
         };
 
-        JButton editButton = new EditButton(() -> new EditGost(gost));
-
         JButton deleteButton = new DeleteButton(deleteAction);
 
         buttonsPanel.setBorder(BorderFactory.createTitledBorder("Dodatne opcije"));
-        buttonsPanel.add(editButton);
         buttonsPanel.add(deleteButton);
     }
 }

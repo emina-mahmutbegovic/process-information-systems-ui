@@ -1,29 +1,38 @@
 package com.processinformationsystemsui.panel.Urednik;
 
+import com.processinformationsystemsui.common.DimensionsEnum;
+import com.processinformationsystemsui.common.panel.BaseEditPanel;
 import com.processinformationsystemsui.model.UrednikModel;
-import com.processinformationsystemsui.common.Common;
+import com.processinformationsystemsui.panel.Urednik.Data.UrednikDataChangeListener;
 import com.processinformatuionsystemsui.api.UrednikApiResources;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class EditUrednikPanel extends JPanel {
+public class EditUrednikPanel extends BaseEditPanel<UrednikModel> {
+    private JTextField imeUrednikaValue;
+    private JTextField prezimeUrednikaValue;
+    private JTextField kontaktTelefonUrednikaValue;
     private final UrednikApiResources apiResources = new UrednikApiResources();
+    private final UrednikDataChangeListener listener;
 
-    public EditUrednikPanel(UrednikModel urednik, JFrame parentFrame) {
+    public EditUrednikPanel(UrednikModel urednik, UrednikDataChangeListener listener) {
+        super("Podaci o uredniku", urednik, DimensionsEnum.twoTimesOne.getDimensions());
 
-        setLayout(new GridLayout(2, 1));
+        this.listener = listener;
+    }
 
-        // Create base data panel
+    @Override
+    protected JPanel initializeDataPanel() {
         JLabel imeUrednika = new JLabel("Ime urednika");
-        JTextField imeUrednikaValue = new JTextField(urednik.getImeUrednika());
+        imeUrednikaValue = new JTextField(element.getImeUrednika());
 
         JLabel prezimeUrednika = new JLabel("Prezime urednika");
-        JTextField prezimeUrednikaValue = new JTextField(urednik.getPrezimeUrednika());
+        prezimeUrednikaValue = new JTextField(element.getPrezimeUrednika());
 
         JLabel kontaktTelefonUrednika = new JLabel("Kontakt telefon urednika");
-        JTextField kontaktTelefonUrednikaValue = new JTextField(urednik.getKontaktTelefonUrednika());
+        kontaktTelefonUrednikaValue = new JTextField(element.getKontaktTelefonUrednika());
 
         JPanel dataPanel = new JPanel(new GridLayout(3, 2));
         dataPanel.add(imeUrednika);
@@ -32,66 +41,50 @@ public class EditUrednikPanel extends JPanel {
         dataPanel.add(prezimeUrednikaValue);
         dataPanel.add(kontaktTelefonUrednika);
         dataPanel.add(kontaktTelefonUrednikaValue);
-        dataPanel.setBorder(BorderFactory.createTitledBorder("Podaci o uredniku"));
 
-        add(dataPanel);
+        return dataPanel;
+    }
 
-        // Create action buttons panel
-        JButton saveButton = new JButton("SAVE");
-        Common.addMouseListener(saveButton);
-        JButton getAllButton = new JButton("DISPLAY EDITORS");
-        Common.addMouseListener(getAllButton);
-        JButton deleteButton = new JButton("DELETE");
-        Common.addMouseListener(deleteButton);
-        deleteButton.setForeground(Color.RED);
-        JPanel buttonsPanel = new JPanel(new FlowLayout());
-
-        // Define action listeners
-        getAllButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(EditUrednikPanel.this, "Get all button clicked");
-//            try {
-//                new ListaUrednika();
-//            } catch (IOException ex) {
-//                throw new RuntimeException(ex);
-//            }
-        });
-
-        saveButton.addActionListener(e -> {
+    @Override
+    protected Runnable initializeSaveAction() {
+        return () -> {
             if(imeUrednikaValue.getText().isEmpty() || prezimeUrednikaValue.getText().isEmpty() || kontaktTelefonUrednikaValue.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(EditUrednikPanel.this, "Polja ne smiju biti prazna!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                validationErrorMessageDialog.showMessage("Polja ne smiju biti prazna!");
             }
             else {
-                UrednikModel newUrednik = new UrednikModel(urednik.getIdUrednika(),
-                        imeUrednikaValue.getText(), prezimeUrednikaValue.getText(), kontaktTelefonUrednikaValue.getText());
                 try {
-                    UrednikModel updateUrednik = apiResources.updateUrednik(newUrednik, urednik.getIdUrednika());
-                    JOptionPane.showMessageDialog(EditUrednikPanel.this, "Urednik uspješno ažuriran!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    UrednikModel newUrednik = new UrednikModel(element.getIdUrednika(),
+                            imeUrednikaValue.getText(), prezimeUrednikaValue.getText(), kontaktTelefonUrednikaValue.getText());
+
+                    element = apiResources.updateUrednik(newUrednik, element.getIdUrednika());
+
+                    informationMessageDialog.showMessage("Urednik uspješno ažuriran!");
+
+                    listener.onUrednikEdited();
+
                     // Update frame title
-                    parentFrame.setTitle(String.format("%s %s", updateUrednik.getImeUrednika(), updateUrednik.getPrezimeUrednika()));
+                    ((JFrame) SwingUtilities.getWindowAncestor(this)).setTitle(String.format("%s %s", element.getImeUrednika(), element.getPrezimeUrednika()));
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(EditUrednikPanel.this,
-                            String.format("Greška prilikom snimanja urednika: %s", ex), "Error", JOptionPane.ERROR_MESSAGE);
+                    errorMessageDialog.showMessage(String.format("Greška prilikom snimanja urednika: %s", ex));
                     throw new RuntimeException(ex);
                 }
             }
-        });
+        };
+    }
 
-        deleteButton.addActionListener(e -> {
+    @Override
+    protected Runnable initializeDeleteAction() {
+        return () -> {
             try {
-                apiResources.deleteUrednik(urednik.getIdUrednika());
-                JOptionPane.showMessageDialog(EditUrednikPanel.this,
-                        String.format("Urednik %s %s uspješno obrisan!", urednik.getImeUrednika(), urednik.getPrezimeUrednika()), "Success", JOptionPane.INFORMATION_MESSAGE);
+                apiResources.deleteUrednik(element.getIdUrednika());
+
+                listener.onUrednikDeleted();
+
+                informationMessageDialog.showMessage(String.format("Urednik %s %s uspješno obrisan!", element.getImeUrednika(), element.getPrezimeUrednika()));
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(EditUrednikPanel.this,
-                        String.format("Greška prilikom brisanja urednika: %s", ex), "Error", JOptionPane.ERROR_MESSAGE);
+                errorMessageDialog.showMessage(String.format("Greška prilikom brisanja urednika: %s", ex));
                 throw new RuntimeException(ex);
             }
-        });
-
-        buttonsPanel.add(getAllButton);
-        buttonsPanel.add(saveButton);
-        buttonsPanel.add(deleteButton);
-
-        add(buttonsPanel);
+        };
     }
 }

@@ -2,7 +2,7 @@ package com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija.Edi
 
 import com.processinformationsystemsui.common.button.CreateButton;
 import com.processinformationsystemsui.model.VrstaEmisijeModel;
-import com.processinformationsystemsui.panel.VrstaEmisije.EditVrstaEmisije;
+import com.processinformationsystemsui.panel.VrstaEmisije.Edit.EditVrstaEmisije;
 import com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija.ListaVrstaEmisijaPanelBase;
 import com.processinformationsystemsui.panel.VrstaEmisije.Create.CreateVrstaEmisijeDialog;
 

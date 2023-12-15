@@ -50,7 +50,6 @@ public class VoditeljApiResources extends ApiResources<VoditeljModel> {
         } finally {
             connection.disconnect();
         }
-
     }
 
     public List<VoditeljModel> getAllVoditelji() throws IOException {

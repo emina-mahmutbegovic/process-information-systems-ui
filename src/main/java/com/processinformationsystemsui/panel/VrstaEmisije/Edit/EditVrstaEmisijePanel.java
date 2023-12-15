@@ -1,6 +1,7 @@
-package com.processinformationsystemsui.panel.VrstaEmisije;
+package com.processinformationsystemsui.panel.VrstaEmisije.Edit;
 
 import com.processinformationsystemsui.common.Dimensions;
+import com.processinformationsystemsui.common.DimensionsEnum;
 import com.processinformationsystemsui.common.panel.BaseEditPanel;
 import com.processinformationsystemsui.model.VrstaEmisijeModel;
 import com.processinformationsystemsui.panel.VrstaEmisije.Data.VrstaEmisijeDataChangeListener;
@@ -16,7 +17,7 @@ public class EditVrstaEmisijePanel extends BaseEditPanel<VrstaEmisijeModel> {
     private final VrstaEmisijeDataChangeListener listener;
 
     public EditVrstaEmisijePanel(VrstaEmisijeModel vrstaEmisije, VrstaEmisijeDataChangeListener listener) {
-        super(String.format("Uredi vrstu emisije %s", vrstaEmisije.getNazivVrsteEmisije()), vrstaEmisije, new Dimensions(2, 1));
+        super(String.format("Uredi vrstu emisije %s", vrstaEmisije.getNazivVrsteEmisije()), vrstaEmisije,  DimensionsEnum.twoTimesOne.getDimensions());
 
         this.listener = listener;
     }

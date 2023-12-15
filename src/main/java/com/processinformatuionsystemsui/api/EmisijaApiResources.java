@@ -45,7 +45,7 @@ public class EmisijaApiResources extends ApiResources<EmisijaModel> {
                 throw new IOException("HTTP error code: " + connection.getResponseCode());
             }
         } catch (Exception ex) {
-            throw new IOException("Could not create new episode.", ex);
+            throw new IOException("Could not create new emisija.", ex);
         } finally {
             connection.disconnect();
         }

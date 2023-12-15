@@ -8,8 +8,8 @@ import com.processinformationsystemsui.common.dialog.message.ValidationErrorMess
 import com.processinformationsystemsui.model.*;
 import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformationsystemsui.panel.Epizoda.Create.CreateEpizodaModel;
-import com.processinformationsystemsui.panel.Urednik.ListaUrednika.ListaUrednika;
-import com.processinformationsystemsui.panel.Voditelj.ListaVoditelja.ListaVoditeljaBaseFrame;
+import com.processinformationsystemsui.panel.Urednik.ListaUrednika.ListaUrednikaBaseFrame;
+import com.processinformationsystemsui.panel.Urednik.ListaUrednika.Select.ListaUrednikaSelect;
 import com.processinformationsystemsui.panel.Voditelj.ListaVoditelja.Select.ListaVoditeljaSelect;
 import com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija.Select.ListaVrstaEmisijaSelect;
 import com.processinformatuionsystemsui.api.*;
@@ -118,7 +118,7 @@ public class EmisijaPanel extends JPanel implements EmisijaDataChangeListener {
 
         Runnable openListaUrednika = () -> {
             try {
-                new ListaUrednika(this, true);
+                new ListaUrednikaSelect(this);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

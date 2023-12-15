@@ -5,7 +5,7 @@ import com.processinformationsystemsui.panel.Voditelj.Create.CreateVoditeljModel
 import java.io.IOException;
 
 public interface VoditeljiDataChangeListener {
-   void onVoditeljCreated(CreateVoditeljModel createVoditeljModel) throws IOException;
+   void onVoditeljCreated(CreateVoditeljModel data) throws IOException;
    void onVoditeljEdited() throws IOException;
    void onVoditeljDeleted() throws IOException;
 }

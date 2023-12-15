@@ -1,4 +1,4 @@
-package com.processinformationsystemsui.panel.VrstaEmisije;
+package com.processinformationsystemsui.panel.VrstaEmisije.Edit;
 
 import com.processinformationsystemsui.common.frame.BaseFrame;
 import com.processinformationsystemsui.model.VrstaEmisijeModel;

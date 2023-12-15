@@ -1,9 +1,8 @@
 import com.processinformationsystemsui.common.menu.BaseMenuItem;
 import com.processinformationsystemsui.panel.Emisija.ListaEmisija.ListaEmisija;
-import com.processinformationsystemsui.panel.Gost.ListaGostiju.ListaGostiju;
-import com.processinformationsystemsui.panel.Urednik.ListaUrednika.ListaUrednika;
+import com.processinformationsystemsui.panel.Gost.ListaGostiju.Edit.ListaGostijuEdit;
+import com.processinformationsystemsui.panel.Urednik.ListaUrednika.Edit.ListaUrednikaEdit;
 import com.processinformationsystemsui.panel.Voditelj.ListaVoditelja.Edit.ListaVoditeljaEdit;
-import com.processinformationsystemsui.panel.Voditelj.ListaVoditelja.ListaVoditeljaBaseFrame;
 import com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija.Edit.ListaVrstaEmisijaEdit;
 
 import javax.swing.*;
@@ -60,7 +59,7 @@ public class MainPanel extends JPanel {
 
         Runnable openUredniciAction = () -> {
             try {
-                new ListaUrednika(null, false);
+                new ListaUrednikaEdit();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -68,7 +67,7 @@ public class MainPanel extends JPanel {
 
         Runnable openGostiAction = () -> {
             try {
-                new ListaGostiju(null);
+                new ListaGostijuEdit();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

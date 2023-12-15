@@ -48,7 +48,7 @@ public class TerminEmitovanjaApiResources extends ApiResources<TerminEmitovanjaM
                 throw new IOException("HTTP error code: " + connection.getResponseCode());
             }
         } catch (Exception ex) {
-            throw new IOException("Could not create new episode.", ex);
+            throw new IOException("Could not create new termin emitovanja.", ex);
         } finally {
             connection.disconnect();
         }

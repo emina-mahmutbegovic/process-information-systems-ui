@@ -7,7 +7,7 @@ import com.processinformationsystemsui.panel.Emisija.EmisijaPanel;
 import com.processinformationsystemsui.panel.Emisija.ListaEmisija.Data.ListaEmisijaDataChangeListener;
 import com.processinformationsystemsui.panel.Epizoda.Create.CreateEpizodaModel;
 import com.processinformationsystemsui.panel.Epizoda.ListaEpizoda.ListaEpizodaPanel;
-import com.processinformationsystemsui.panel.Gost.ListaGostiju.ListaGostijuPanel;
+import com.processinformationsystemsui.panel.Gost.ListaGostiju.Select.ListaGostijuPanelSelect;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class EditEmisijaPanel extends EmisijaPanel {
     private final ListaEpizodaPanel listaEpizodaPanel;
 
     // Gosti section
-    private final ListaGostijuPanel listaGostijuPanel;
+    private final ListaGostijuPanelSelect listaGostijuPanel;
 
     // Data exchange
     private final ListaEmisijaDataChangeListener listaEmisijaDataChangeListener;
@@ -33,7 +33,7 @@ public class EditEmisijaPanel extends EmisijaPanel {
         this.selectedVrstaEmisije = emisija.getVrstaEmisije();
 
 
-        listaGostijuPanel = new ListaGostijuPanel(emisija.getIdEmisije(), this, (JFrame) SwingUtilities.getWindowAncestor(this));
+        listaGostijuPanel = new ListaGostijuPanelSelect(emisija.getIdEmisije(), this, (JFrame) SwingUtilities.getWindowAncestor(this));
         listaGostijuPanel.setBorder(BorderFactory.createTitledBorder("Gosti"));
 
         listaEpizodaPanel = new ListaEpizodaPanel(emisija.getIdEmisije(), this, (JFrame) SwingUtilities.getWindowAncestor(this));

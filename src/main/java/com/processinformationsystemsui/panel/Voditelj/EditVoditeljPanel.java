@@ -1,6 +1,6 @@
 package com.processinformationsystemsui.panel.Voditelj;
 
-import com.processinformationsystemsui.common.Dimensions;
+import com.processinformationsystemsui.common.DimensionsEnum;
 import com.processinformationsystemsui.common.panel.BaseEditPanel;
 import com.processinformationsystemsui.model.VoditeljModel;
 import com.processinformationsystemsui.panel.Voditelj.Data.VoditeljiDataChangeListener;
@@ -19,7 +19,7 @@ public class EditVoditeljPanel extends BaseEditPanel<VoditeljModel> {
     private final VoditeljiDataChangeListener listener;
 
     public EditVoditeljPanel(VoditeljModel voditelj, VoditeljiDataChangeListener listener) {
-        super("Podaci o voditelju", voditelj, new Dimensions(2, 1));
+        super("Podaci o voditelju", voditelj, DimensionsEnum.twoTimesOne.getDimensions());
 
         this.listener = listener;
     }
