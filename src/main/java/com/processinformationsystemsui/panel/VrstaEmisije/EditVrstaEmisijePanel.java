@@ -1,81 +1,84 @@
 package com.processinformationsystemsui.panel.VrstaEmisije;
 
+import com.processinformationsystemsui.common.Dimensions;
+import com.processinformationsystemsui.common.panel.BaseEditPanel;
 import com.processinformationsystemsui.model.VrstaEmisijeModel;
-import com.processinformationsystemsui.common.Common;
+import com.processinformationsystemsui.panel.VrstaEmisije.Data.VrstaEmisijeDataChangeListener;
 import com.processinformatuionsystemsui.api.VrstaEmisijeApiResources;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class EditVrstaEmisijePanel extends JPanel {
+public class EditVrstaEmisijePanel extends BaseEditPanel<VrstaEmisijeModel> {
+    private JTextField nazivVrsteEmisijeValue;
     private final VrstaEmisijeApiResources apiResources = new VrstaEmisijeApiResources();
+    private final VrstaEmisijeDataChangeListener listener;
 
-    public EditVrstaEmisijePanel(VrstaEmisijeModel vrstaEmisije, JFrame parentFrame) {
+    public EditVrstaEmisijePanel(VrstaEmisijeModel vrstaEmisije, VrstaEmisijeDataChangeListener listener) {
+        super(String.format("Uredi vrstu emisije %s", vrstaEmisije.getNazivVrsteEmisije()), vrstaEmisije, new Dimensions(2, 1));
 
-        setLayout(new GridLayout(2, 1));
+        this.listener = listener;
+    }
 
-        // Create base data panel
+    @Override
+    protected JPanel initializeDataPanel() {
         JLabel nazivVrsteEmisije = new JLabel("Naziv vrste emisije");
-        JTextField nazivVrsteEmisijeValue = new JTextField(vrstaEmisije.getNazivVrsteEmisije());
+        nazivVrsteEmisijeValue = new JTextField(element.getNazivVrsteEmisije());
 
         JPanel dataPanel = new JPanel(new GridLayout(1, 2));
-        dataPanel.add(nazivVrsteEmisije);
-        dataPanel.add(nazivVrsteEmisijeValue);
-        dataPanel.setBorder(BorderFactory.createTitledBorder("Podaci o vrsti emisije"));
 
-        add(dataPanel);
+        JPanel labelPanel = new JPanel(new FlowLayout());
+        labelPanel.add(nazivVrsteEmisije);
+        dataPanel.add(labelPanel);
 
-        // Create action buttons panel
-        JButton saveButton = new JButton("SAVE");
-        Common.addMouseListener(saveButton);
-        JButton getAllButton = new JButton("DISPLAY GENRES");
-        Common.addMouseListener(getAllButton);
-        JButton deleteButton = new JButton("DELETE");
-        Common.addMouseListener(deleteButton);
-        deleteButton.setForeground(Color.RED);
-        JPanel buttonsPanel = new JPanel(new FlowLayout());
+        JPanel textFieldPanel = new JPanel(new FlowLayout());
+        textFieldPanel.add(nazivVrsteEmisijeValue);
+        dataPanel.add(textFieldPanel);
 
-        // Define action listeners
-        getAllButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(EditVrstaEmisijePanel.this, "Get all button clicked");
-        });
+        return dataPanel;
+    }
 
-        saveButton.addActionListener(e -> {
-            if(nazivVrsteEmisijeValue.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(EditVrstaEmisijePanel.this, "Polja ne smiju biti prazna!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                VrstaEmisijeModel newVrstaEmisije = new VrstaEmisijeModel(vrstaEmisije.getNazivVrsteEmisije(), vrstaEmisije.getIdVrsteEmisije());
+    @Override
+    protected Runnable initializeSaveAction() {
+        return () -> {
+            if (nazivVrsteEmisijeValue.getText().isEmpty() || nazivVrsteEmisijeValue.getText().isBlank()) {
+                validationErrorMessageDialog.showMessage("Polja ne smiju biti prazna!");
+            } else {
                 try {
-                    VrstaEmisijeModel updatedVrstaEmisije = apiResources.updateVrstaEmisijeModel(newVrstaEmisije, vrstaEmisije.getIdVrsteEmisije());
-                    JOptionPane.showMessageDialog(EditVrstaEmisijePanel.this, "Vrsta emisije uspješno ažurirana!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    VrstaEmisijeModel newVrstaEmisije = new VrstaEmisijeModel(nazivVrsteEmisijeValue.getText(), element.getIdVrsteEmisije());
+
+                    element = apiResources.updateVrstaEmisijeModel(newVrstaEmisije, element.getIdVrsteEmisije());
+                    informationMessageDialog.showMessage("Vrsta emisije uspješno ažurirana!");
+
+                    // Update list
+                    listener.onVrstaEmisijeEdited();
                     // Update frame title
-                    parentFrame.setTitle(updatedVrstaEmisije.getNazivVrsteEmisije());
+                    ((JFrame) SwingUtilities.getWindowAncestor(this)).setTitle(element.getNazivVrsteEmisije());
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(EditVrstaEmisijePanel.this,
-                            String.format("Greška prilikom snimanja vrste emisije: %s", ex), "Error", JOptionPane.ERROR_MESSAGE);
+                    errorMessageDialog.showMessage(String.format("Greška prilikom snimanja vrste emisije: %s", ex));
                     throw new RuntimeException(ex);
                 }
             }
-        });
+        };
+    }
 
-        deleteButton.addActionListener(e -> {
+    @Override
+    protected Runnable initializeDeleteAction() {
+        return () -> {
             try {
-                apiResources.deleteVrstaEmisije(vrstaEmisije.getIdVrsteEmisije());
-                JOptionPane.showMessageDialog(EditVrstaEmisijePanel.this,
-                        String.format("Vrsta emisije %suspješno obrisana!", vrstaEmisije.getNazivVrsteEmisije()), "Success", JOptionPane.INFORMATION_MESSAGE);
+                apiResources.deleteVrstaEmisije(element.getIdVrsteEmisije());
+                informationMessageDialog.showMessage(String.format("Vrsta emisije %s uspješno obrisana!", element.getNazivVrsteEmisije()));
+
+                //Emit delete event
+                listener.onVrstaEmisijeDeleted();
+
+                // Dispose frame
+                SwingUtilities.getWindowAncestor(this).dispose();
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(EditVrstaEmisijePanel.this,
-                        String.format("Greška prilikom brisanja vrste emisije: %s", ex), "Error", JOptionPane.ERROR_MESSAGE);
+                errorMessageDialog.showMessage(String.format("Greška prilikom brisanja vrste emisije: %s", ex));
                 throw new RuntimeException(ex);
             }
-        });
-
-        buttonsPanel.add(getAllButton);
-        buttonsPanel.add(saveButton);
-        buttonsPanel.add(deleteButton);
-
-        add(buttonsPanel);
+        };
     }
 }

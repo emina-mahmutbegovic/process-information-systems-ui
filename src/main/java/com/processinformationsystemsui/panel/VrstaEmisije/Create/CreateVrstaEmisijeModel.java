@@ -1,4 +1,4 @@
-package com.processinformationsystemsui.panel.VrstaEmisije.create;
+package com.processinformationsystemsui.panel.VrstaEmisije.Create;
 
 public class CreateVrstaEmisijeModel {
     private String nazivVrsteEmisije;

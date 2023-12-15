@@ -1,4 +1,4 @@
-package com.processinformationsystemsui.panel.VrstaEmisije.create;
+package com.processinformationsystemsui.panel.VrstaEmisije.Create;
 
 import com.processinformationsystemsui.common.DimensionsEnum;
 import com.processinformationsystemsui.common.dialog.create.BaseCreateNewElementDialog;

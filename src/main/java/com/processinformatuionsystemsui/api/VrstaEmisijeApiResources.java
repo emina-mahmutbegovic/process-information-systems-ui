@@ -1,11 +1,8 @@
 package com.processinformatuionsystemsui.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.processinformationsystemsui.model.EpizodaModel;
-import com.processinformationsystemsui.model.VoditeljModel;
 import com.processinformationsystemsui.model.VrstaEmisijeModel;
-import com.processinformationsystemsui.panel.Epizoda.Create.CreateEpizodaModel;
-import com.processinformationsystemsui.panel.VrstaEmisije.create.CreateVrstaEmisijeModel;
+import com.processinformationsystemsui.panel.VrstaEmisije.Create.CreateVrstaEmisijeModel;
 
 import java.io.IOException;
 import java.io.OutputStream;

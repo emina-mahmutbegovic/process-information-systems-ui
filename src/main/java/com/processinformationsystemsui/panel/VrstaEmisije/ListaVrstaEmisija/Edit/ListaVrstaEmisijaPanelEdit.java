@@ -2,9 +2,9 @@ package com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija.Edi
 
 import com.processinformationsystemsui.common.button.CreateButton;
 import com.processinformationsystemsui.model.VrstaEmisijeModel;
+import com.processinformationsystemsui.panel.VrstaEmisije.EditVrstaEmisije;
 import com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija.ListaVrstaEmisijaPanelBase;
-import com.processinformationsystemsui.panel.VrstaEmisije.create.CreateVrstaEmisijeDialog;
-import com.processinformationsystemsui.panel.VrstaEmisije.create.CreateVrstaEmisijeModel;
+import com.processinformationsystemsui.panel.VrstaEmisije.Create.CreateVrstaEmisijeDialog;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -30,14 +30,7 @@ public class ListaVrstaEmisijaPanelEdit extends ListaVrstaEmisijaPanelBase {
     @Override
     protected void onSelected(VrstaEmisijeModel vrstaEmisije) {
         if(vrstaEmisije != null) {
-            // Open edit vrsta emisije
+            new EditVrstaEmisije(vrstaEmisije, this);
         }
-    }
-
-    @Override
-    public void onVrstaEmisijeCreated(CreateVrstaEmisijeModel data) throws IOException {
-        apiResources.createVrstaEmisije(data);
-
-        updateList();
     }
 }

@@ -3,7 +3,7 @@ package com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija;
 import com.processinformationsystemsui.common.list.BaseListPanel;
 import com.processinformationsystemsui.model.VrstaEmisijeModel;
 import com.processinformationsystemsui.panel.VrstaEmisije.Data.VrstaEmisijeDataChangeListener;
-import com.processinformationsystemsui.panel.VrstaEmisije.create.CreateVrstaEmisijeModel;
+import com.processinformationsystemsui.panel.VrstaEmisije.Create.CreateVrstaEmisijeModel;
 import com.processinformatuionsystemsui.api.VrstaEmisijeApiResources;
 
 import java.io.IOException;
@@ -41,5 +41,19 @@ public class ListaVrstaEmisijaPanelBase extends BaseListPanel<VrstaEmisijeModel>
     }
 
     @Override
-    public void onVrstaEmisijeCreated(CreateVrstaEmisijeModel data) throws IOException {}
+    public void onVrstaEmisijeCreated(CreateVrstaEmisijeModel data) throws IOException {
+        apiResources.createVrstaEmisije(data);
+
+        updateList();
+    }
+
+    @Override
+    public void onVrstaEmisijeEdited() throws IOException {
+        updateList();
+    }
+
+    @Override
+    public void onVrstaEmisijeDeleted() throws IOException {
+        updateList();
+    }
 }
