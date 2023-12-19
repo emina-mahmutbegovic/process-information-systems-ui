@@ -22,3 +22,10 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// Define a custom "run" task
+task run(type: JavaExec) {
+    description = 'Run TV Prrogram Java UI application'
+    main = 'src/main/java/Main.java'
+    classpath = sourceSets.main.runtimeClasspath
+}
