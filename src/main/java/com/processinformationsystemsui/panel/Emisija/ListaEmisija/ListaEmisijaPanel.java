@@ -1,6 +1,5 @@
 package com.processinformationsystemsui.panel.Emisija.ListaEmisija;
 
-import com.processinformationsystemsui.common.Common;
 import com.processinformationsystemsui.common.button.CreateButton;
 import com.processinformationsystemsui.common.list.BaseListPanel;
 import com.processinformationsystemsui.model.EmisijaModel;

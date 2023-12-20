@@ -8,7 +8,6 @@ import com.processinformationsystemsui.common.dialog.message.ValidationErrorMess
 import com.processinformationsystemsui.model.*;
 import com.processinformationsystemsui.panel.Emisija.Data.EmisijaDataChangeListener;
 import com.processinformationsystemsui.panel.Epizoda.Create.CreateEpizodaModel;
-import com.processinformationsystemsui.panel.Urednik.ListaUrednika.ListaUrednikaBaseFrame;
 import com.processinformationsystemsui.panel.Urednik.ListaUrednika.Select.ListaUrednikaSelect;
 import com.processinformationsystemsui.panel.Voditelj.ListaVoditelja.Select.ListaVoditeljaSelect;
 import com.processinformationsystemsui.panel.VrstaEmisije.ListaVrstaEmisija.Select.ListaVrstaEmisijaSelect;

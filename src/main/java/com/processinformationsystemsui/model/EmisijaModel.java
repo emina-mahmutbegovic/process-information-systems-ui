@@ -1,7 +1,6 @@
 package com.processinformationsystemsui.model;
 
 import java.util.List;
-import java.util.Set;
 
 public class EmisijaModel {
     private String idEmisije;

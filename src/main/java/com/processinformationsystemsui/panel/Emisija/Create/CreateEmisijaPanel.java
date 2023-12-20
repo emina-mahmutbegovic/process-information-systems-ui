@@ -1,6 +1,5 @@
 package com.processinformationsystemsui.panel.Emisija.Create;
 
-import com.processinformationsystemsui.common.Dimensions;
 import com.processinformationsystemsui.common.DimensionsEnum;
 import com.processinformationsystemsui.model.*;
 import com.processinformationsystemsui.panel.Emisija.EmisijaPanel;
